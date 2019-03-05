@@ -12,6 +12,5 @@ public class MainActivity extends AppCompatActivity {
         // hasan comiit
         //fatih
         //deneme
-        //Muhammed
     }
 }
