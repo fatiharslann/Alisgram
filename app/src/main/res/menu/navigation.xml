@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:checked="false"
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+
+    <item
+        android:checked="false"
+        android:id="@+id/navigation_kesfet"
+        android:icon="@drawable/search"
+        android:title="@string/title_kesfet" />
+
+    <item
+        android:checked="false"
+        android:id="@+id/navigation_ekle"
+        android:icon="@drawable/plus"
+        android:title="@string/title_aliskanlik" />
+
+    <item
+        android:checked="true"
+        android:id="@+id/navigation_profil"
+        android:icon="@drawable/profil"
+        android:title="@string/title_profil" />
+</menu>

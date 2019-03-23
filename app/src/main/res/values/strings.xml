@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Alisgram</string>
+    <string name="title_activity_profil">Profil</string>
+    <string name="title_home">Anasayfa</string>
+    <string name="title_kesfet">Keşfet</string>
+    <string name="title_aliskanlik">Ekle</string>
+    <string name="title_profil">Profil</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
