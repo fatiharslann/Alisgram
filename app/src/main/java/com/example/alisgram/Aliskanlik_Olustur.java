@@ -85,9 +85,8 @@ public class Aliskanlik_Olustur extends AppCompatActivity implements TimePickerD
                     Hatirlatici_spinner.setVisibility(View.INVISIBLE);
                 }
             }
-        });
-
-
+        });//deneme
+        //burası hidayet
 
     }
     @Override
