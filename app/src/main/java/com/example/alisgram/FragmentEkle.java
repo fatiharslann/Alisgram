@@ -84,8 +84,7 @@ public class FragmentEkle extends Fragment implements TimePickerDialog.OnTimeSet
                     Hatirlatici_spinner.setVisibility(View.INVISIBLE);
                 }
             }
-        });//deneme
-        //burası hidayet
+        });
 
     }
     @Override
