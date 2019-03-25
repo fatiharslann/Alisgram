@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 
 public class Profil extends AppCompatActivity {
 
@@ -53,7 +54,10 @@ public class Profil extends AppCompatActivity {
         FragmentProfil fragmentProfil = new FragmentProfil();
         loadFragment(fragmentProfil);
 
-
+        //alt menu kapatma
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        decorView.setSystemUiVisibility(uiOptions);
     }
 
     public void loadFragment(Fragment fragment){

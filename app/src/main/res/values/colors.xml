@@ -4,5 +4,11 @@
     <color name="colorPrimaryDark">#05927E</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorBarBackground">#DCDCDC</color>
-
+    <color name="colorBtn">#04090a</color>
+    <color name="colorTxt">#212121</color>
+    <color name="colorHint">#B0BEC5</color>
+    <color name="mainPrimary">#009688</color>
+    <color name="mainPrimaryDark">#00695c</color>
+    <color name="mainAccent">#b2dfdb</color>
+    <color name="background_deneme">#F98820</color>
 </resources>
