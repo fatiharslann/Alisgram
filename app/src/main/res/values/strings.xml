@@ -12,4 +12,7 @@
     <string name="txt_spor">Spor</string>
     <string name="txt_life">Yaşam</string>
     <string name="txt_fun">Eğlence</string>
+
+
+    <string name="client_id">962977850206-ktl2a178heut8dlj6cdnvdcsrgb0b5ca.apps.googleusercontent.com</string>
 </resources>
