@@ -1,8 +1,6 @@
 package com.example.alisgram;
 
 import android.app.TimePickerDialog;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -25,17 +23,19 @@ public class FragmentEkle extends Fragment implements TimePickerDialog.OnTimeSet
     MaterialEditText Detay_edit,Etiket_edit;
     Button Saat_Ekle;
     TextView saat_goster;
+    private View view;
     Switch hatirlatici_switch;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment_ekle, container, false);
+        view = inflater.inflate(R.layout.fragment_fragment_ekle, container, false);
+        return  view;
     }
 
     private void tanimla() {
 
-        Alt_Kategori_spinner = (MaterialSpinner) getActivity().findViewById(R.id.Alt_Kategori_spinner);
+        Alt_Kategori_spinner = (MaterialSpinner) view.findViewById(R.id.Alt_Kategori_spinner);
         Alt_Kategori_spinner.setItems("0"," 1", "2", "3", "4", "5");
         Alt_Kategori_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
@@ -44,7 +44,7 @@ public class FragmentEkle extends Fragment implements TimePickerDialog.OnTimeSet
             }
         });
 
-        Kategori_spinner = (MaterialSpinner) getActivity().findViewById(R.id.Kategori_spinner);
+        Kategori_spinner = (MaterialSpinner) view.findViewById(R.id.Kategori_spinner);
         Kategori_spinner.setItems("0"," 1", "2", "3", "4", "5");
         Kategori_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
@@ -52,7 +52,7 @@ public class FragmentEkle extends Fragment implements TimePickerDialog.OnTimeSet
                 Toast.makeText(getActivity(), item, Toast.LENGTH_SHORT).show();
             }
         });
-        Hatirlatici_spinner = (MaterialSpinner) getActivity().findViewById(R.id.Hatirlatici_spinner);
+        Hatirlatici_spinner = (MaterialSpinner) view.findViewById(R.id.Hatirlatici_spinner);
         Hatirlatici_spinner.setItems("0"," 1", "2", "3", "4", "5");
         Hatirlatici_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
@@ -74,7 +74,7 @@ public class FragmentEkle extends Fragment implements TimePickerDialog.OnTimeSet
             }
         });
 
-        hatirlatici_switch = getActivity().findViewById(R.id.hatirlatici_switch);
+        hatirlatici_switch = view.findViewById(R.id.hatirlatici_switch);
         hatirlatici_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -89,7 +89,7 @@ public class FragmentEkle extends Fragment implements TimePickerDialog.OnTimeSet
     }
     @Override
     public void onTimeSet(TimePicker view, int saat, int dakika) {
-        saat_goster = getActivity().findViewById(R.id.saat_text);
+        saat_goster = view.findViewById(R.id.saat_text);
         saat_goster.setVisibility(View.VISIBLE);
         saat_goster.setText(saat+":"+dakika);
     }
