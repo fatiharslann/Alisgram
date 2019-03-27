@@ -41,11 +41,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvName"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
             android:gravity="center"
-            android:text="I love donuts and I have my own TV show"
+            android:text="I love Adana Kebap"
             android:textSize="15sp"
-            android:textStyle="italic"
-            android:layout_marginBottom="15dp"/>
+            android:textStyle="italic" />
 
     </RelativeLayout>
 
