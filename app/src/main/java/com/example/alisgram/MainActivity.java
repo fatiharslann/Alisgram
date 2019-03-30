@@ -5,9 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -55,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 signIn();
-                //Intent intent = new Intent(MainActivity.this, Profil.class);
-                //startActivity(intent);
             }
         });
     }
@@ -80,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
             } catch (ApiException e) {
                 // Google Sign In failed
-                Toast.makeText(MainActivity.this, "onActivityResult:Basarisiz" + e, Toast.LENGTH_SHORT).show();
+                toastBasarisiz();
             }
         }
     }
@@ -94,16 +89,21 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success
-
-                            //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            toastBasarili();
                             Intent intent = new Intent(MainActivity.this, Profil.class);
                             startActivity(intent);
                             finish();
-                            Toast.makeText(MainActivity.this, "firebaseAuthWithGoogle:Basarili", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(MainActivity.this, "firebaseAuthWithGoogle:Basarisiz", Toast.LENGTH_SHORT).show();
+                            toastBasarisiz();
                         }
                     }
                 });
+    }
+
+    private void toastBasarili() {
+        CustomToast.successful(MainActivity.this);
+    }
+    private void toastBasarisiz() {
+        CustomToast.error(MainActivity.this);
     }
 }
