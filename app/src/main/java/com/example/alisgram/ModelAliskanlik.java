@@ -1,5 +1,6 @@
 package com.example.alisgram;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ModelAliskanlik {
@@ -8,8 +9,8 @@ public class ModelAliskanlik {
     private String AliskanlikAltKategori;
     private String AliskanlikEtiket;
     private String AliskanlikDetay;
-    private List<String> AliskanlikGunler;
-    private List<String> AliskanlikSaatler;
+    private ArrayList<String> AliskanlikGunler;
+    private ArrayList<String> AliskanlikSaatler;
     private String AlislanlikOnHatirlatici;
     private boolean AliskanlikGizlilik;
     private String AliskanlikKullaniciId;
@@ -17,7 +18,7 @@ public class ModelAliskanlik {
     private int AliskanlikSeviye;
     private int AliskanlikDurum;
 
-    public ModelAliskanlik(String aliskanlikId, String aliskanlikKategori, String aliskanlikAltKategori, String aliskanlikEtiket, String aliskanlikDetay, List<String> aliskanlikGunler, List<String> aliskanlikSaatler, String alislanlikOnHatirlatici, boolean aliskanlikGizlilik, String aliskanlikKullaniciId, String aliskanlikOlusturulmaTarihi, int aliskanlikSeviye, int aliskanlikDurum) {
+    public ModelAliskanlik(String aliskanlikId, String aliskanlikKategori, String aliskanlikAltKategori, String aliskanlikEtiket, String aliskanlikDetay, ArrayList<String> aliskanlikGunler, ArrayList<String> aliskanlikSaatler, String alislanlikOnHatirlatici, boolean aliskanlikGizlilik, String aliskanlikKullaniciId, String aliskanlikOlusturulmaTarihi, int aliskanlikSeviye, int aliskanlikDurum) {
         AliskanlikId = aliskanlikId;
         AliskanlikKategori = aliskanlikKategori;
         AliskanlikAltKategori = aliskanlikAltKategori;
@@ -109,19 +110,19 @@ public class ModelAliskanlik {
         AliskanlikDetay = aliskanlikDetay;
     }
 
-    public List<String> getAliskanlikGunler() {
+    public ArrayList<String> getAliskanlikGunler() {
         return AliskanlikGunler;
     }
 
-    public void setAliskanlikGunler(List<String> aliskanlikGunler) {
+    public void setAliskanlikGunler(ArrayList<String> aliskanlikGunler) {
         AliskanlikGunler = aliskanlikGunler;
     }
 
-    public List<String> getAliskanlikSaatler() {
+    public ArrayList<String> getAliskanlikSaatler() {
         return AliskanlikSaatler;
     }
 
-    public void setAliskanlikSaatler(List<String> aliskanlikSaatler) {
+    public void setAliskanlikSaatler(ArrayList<String> aliskanlikSaatler) {
         AliskanlikSaatler = aliskanlikSaatler;
     }
 
