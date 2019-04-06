@@ -41,11 +41,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvName"
             android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
             android:gravity="center"
-            android:text="I love donuts and I have my own TV show"
+            android:text="I love Adana Kebap"
             android:textSize="15sp"
-            android:textStyle="italic"
-            android:layout_marginBottom="15dp"/>
+            android:textStyle="italic" />
 
     </RelativeLayout>
 
@@ -77,9 +77,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/kullaniciAliskanlikList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
 
     </RelativeLayout>
 
