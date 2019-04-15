@@ -149,7 +149,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginRight="8dp"
-                android:background="@drawable/selected_circle"
+                android:background="@drawable/circle"
                 android:padding="15dp"
                 android:text="Ç"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -283,22 +283,6 @@
         app:layout_constraintStart_toEndOf="@+id/On_Hatirlatici"
         app:layout_constraintTop_toBottomOf="@+id/Saat_Ekle" />
 
-    <com.jaredrummler.materialspinner.MaterialSpinner
-        android:id="@+id/Hatirlatici_spinner"
-        android:layout_width="124dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.804"
-        app:layout_constraintStart_toEndOf="@+id/hatirlatici_switch"
-        app:layout_constraintTop_toBottomOf="@+id/Saat_Ekle"
-        app:ms_arrow_tint="@color/colorPrimary"
-        app:ms_background_color="@color/mainAccent"
-        app:ms_text_color="@color/colorPrimaryDark" />
-
     <Button
         android:id="@+id/kaydet_btn"
         android:layout_width="wrap_content"
@@ -361,7 +345,7 @@
         app:layout_constraintTop_toBottomOf="@+id/On_Hatirlatici" />
 
     <Switch
-        android:id="@+id/switch1"
+        android:id="@+id/gizliilik_switch"
         android:layout_width="61dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -373,5 +357,22 @@
         app:layout_constraintHorizontal_bias="0.721"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/hatirlatici_switch" />
+
+    <EditText
+        android:id="@+id/hatirlatici_text"
+        android:layout_width="121dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/hatirlatici_switch"
+        app:layout_constraintTop_toBottomOf="@+id/Saat_Ekle" />
 
 </android.support.constraint.ConstraintLayout>

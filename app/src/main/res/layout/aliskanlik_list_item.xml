@@ -59,24 +59,21 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:src="@drawable/eye1" />
+                    android:layout_marginBottom="5dp"/>
 
                 <ImageView
                     android:id="@+id/editAliskanlik"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:src="@drawable/edit" />
+                    android:layout_marginBottom="5dp"/>
 
                 <ImageView
                     android:id="@+id/deleteAliskanlik"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:src="@drawable/delete" />
+                    android:layout_marginBottom="5dp" />
             </LinearLayout>
         </RelativeLayout>
 
