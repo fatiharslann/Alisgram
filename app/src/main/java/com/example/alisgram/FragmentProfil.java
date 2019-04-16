@@ -1,13 +1,11 @@
 package com.example.alisgram;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,7 +17,6 @@ import com.squareup.picasso.Picasso;
 public class FragmentProfil extends Fragment {
 
     FirebaseAuth auth;
-
 
     public FragmentProfil() {
         // Required empty public constructor
@@ -45,18 +42,10 @@ public class FragmentProfil extends Fragment {
         if (resimyolu != null)
             profilResminiYukle(view, resimyolu);
 
-        String userInfo = user.getEmail();
-        tvName.setText(userInfo);
 
-        bt_cikis.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (auth != null) {
-                    auth.signOut();
-                    startActivity(new Intent(getActivity(), MainActivity.class));
-                }
-            }
-        });
+        tvName.setText(user.getDisplayName());
+        tvDescription.setText(user.getEmail());
+
         return view;
     }
 
