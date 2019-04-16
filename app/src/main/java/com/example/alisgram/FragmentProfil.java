@@ -1,6 +1,7 @@
 package com.example.alisgram;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -53,6 +55,16 @@ public class FragmentProfil extends Fragment {
             profilResminiYukle(view, resimyolu);
 
 
+        bt_cikis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (auth != null) {
+                    auth.signOut();
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                }
+            }
+        });
+
         viewPager = view.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
@@ -65,9 +77,10 @@ public class FragmentProfil extends Fragment {
 
         return view;
     }
+
     @Override
     public void onAttach(Activity activity) {
-        myContext=(FragmentActivity) activity;
+        myContext = (FragmentActivity) activity;
         super.onAttach(activity);
     }
 
