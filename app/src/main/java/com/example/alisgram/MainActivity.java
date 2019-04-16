@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         decorView.setSystemUiVisibility(uiOptions);
 
-        signInButton = findViewById(R.id.btGoogleSign);
+        signInButton = findViewById(R.id.bt_GoogleSign);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -138,5 +141,44 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     private void toastBasarisiz() {
         CustomToast.error(MainActivity.this);
+    }
+
+    public void bt_giris_click(View view) {
+        EditText et_email = findViewById(R.id.et_email);
+        EditText et_sifre = findViewById(R.id.et_sifre);
+
+        String email = et_email.getText().toString();
+        String parola = et_sifre.getText().toString();
+
+        //Email girilmemiş ise kullanıcıyı uyarıyoruz.
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(getApplicationContext(), "Lütfen emailinizi giriniz", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //Parola girilmemiş ise kullanıcıyı uyarıyoruz.
+        if (TextUtils.isEmpty(parola)) {
+            Toast.makeText(getApplicationContext(), "Lütfen parolanızı giriniz", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //Firebase üzerinde kullanıcı doğrulamasını başlatıyoruz
+        //Eğer giriş başarılı olursa task.isSuccessful true dönecek ve MainActivity e geçilecek
+        mAuth.signInWithEmailAndPassword(email, parola)
+                .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            CustomToast.successful(MainActivity.this);
+                            startActivity(new Intent(MainActivity.this, MainActivity.class));
+                        } else {
+                            Log.e("Giriş Hatası", task.getException().getMessage());
+                            CustomToast.error(MainActivity.this);
+                        }
+                    }
+                });
+    }
+
+    public void bt_kayit_click(View view) {
+        startActivity(new Intent(MainActivity.this, KayitEkrani.class));
     }
 }

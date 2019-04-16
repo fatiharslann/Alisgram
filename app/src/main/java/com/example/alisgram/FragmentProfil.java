@@ -1,11 +1,13 @@
 package com.example.alisgram;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +18,8 @@ import com.squareup.picasso.Picasso;
 
 public class FragmentProfil extends Fragment {
 
-    FirebaseUser user;
+    FirebaseAuth auth;
+
 
     public FragmentProfil() {
         // Required empty public constructor
@@ -32,17 +35,28 @@ public class FragmentProfil extends Fragment {
 
         TextView tvName = view.findViewById(R.id.tvName);
         TextView tvDescription = view.findViewById(R.id.tvDescription);
+        Button bt_cikis = view.findViewById(R.id.bt_cikis);
 
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        auth = FirebaseAuth.getInstance();
+
+        FirebaseUser user = auth.getCurrentUser();
         Uri resimyolu = user.getPhotoUrl();
+        if (resimyolu != null)
+            profilResminiYukle(view, resimyolu);
 
-        profilResminiYukle(view, resimyolu);
-
-        String userInfo = user.getDisplayName();//+ "\n" + user.getEmail();
+        String userInfo = user.getEmail();
         tvName.setText(userInfo);
 
-
+        bt_cikis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (auth != null) {
+                    auth.signOut();
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                }
+            }
+        });
         return view;
     }
 

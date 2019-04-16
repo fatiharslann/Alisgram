@@ -47,6 +47,12 @@
             android:textSize="15sp"
             android:textStyle="italic" />
 
+        <Button
+            android:id="@+id/bt_cikis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cikis" />
+
     </RelativeLayout>
 
     <RelativeLayout
