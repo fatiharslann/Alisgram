@@ -1,6 +1,7 @@
 package com.example.alisgram;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +27,7 @@ public class FragmentProfil extends Fragment {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private FragmentActivity myContext;
+    FirebaseAuth auth;
 
     public FragmentProfil() {
         // Required empty public constructor
@@ -34,13 +37,33 @@ public class FragmentProfil extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
 
         view = inflater.inflate(R.layout.fragment_fragment_profil, container, false);
 
         TextView tvName = view.findViewById(R.id.tvName);
         TextView tvDescription = view.findViewById(R.id.tvDescription);
+        Button bt_cikis = view.findViewById(R.id.bt_cikis);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
+
+        auth = FirebaseAuth.getInstance();
+
+        FirebaseUser user = auth.getCurrentUser();
+        Uri resimyolu = user.getPhotoUrl();
+        if (resimyolu != null)
+            profilResminiYukle(view, resimyolu);
+
+
+        bt_cikis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (auth != null) {
+                    auth.signOut();
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                }
+            }
+        });
 
         viewPager = view.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -54,9 +77,10 @@ public class FragmentProfil extends Fragment {
 
         return view;
     }
+
     @Override
     public void onAttach(Activity activity) {
-        myContext=(FragmentActivity) activity;
+        myContext = (FragmentActivity) activity;
         super.onAttach(activity);
     }
 
@@ -69,4 +93,5 @@ public class FragmentProfil extends Fragment {
         ImageView ivUserProfil = viev.findViewById(R.id.ivProfile);
         Picasso.get().load(profilResim).into(ivUserProfil);
     }
+
 }
