@@ -58,11 +58,13 @@ public class AnasayfaAdapter extends RecyclerView.Adapter<AnasayfaAdapter.MyView
                 @Override
                 public void onClick(View view) {
                     ModelAliskanlik paliskanlik = mAliskanlikList.get(getAdapterPosition());
+                    String aliskanlikId = paliskanlik.getAliskanlikId();
                     String aliskanlikAdi = paliskanlik.getAliskanlikEtiket();
                     String aliskanlikKullanici = paliskanlik.getAliskanlikKullaniciId();
                     float paliskanlikSeviye = paliskanlik.getAliskanlikSeviye();
 
                     Intent intent = new Intent(mcon, AnasayfaPopupActivity.class);
+                    intent.putExtra("aliskanlikId",aliskanlikId);
                     intent.putExtra("aliskanlikAdi",aliskanlikAdi);
                     intent.putExtra("aliskanlikSeviye",paliskanlikSeviye);
                     intent.putExtra("aliskanlikKullanici",aliskanlikKullanici);
