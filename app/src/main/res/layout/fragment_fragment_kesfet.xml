@@ -30,51 +30,19 @@
         >
 
         <LinearLayout
+            android:id="@+id/dbLLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <Button
+                android:id="@+id/seninicin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/search"
-                android:text="@string/txt_special_for_you" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/search"
-                android:text="@string/txt_spor"
+                android:text="@string/txt_special_for_you"
                 />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/search"
-                android:text="@string/txt_life" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/search"
-                android:text="@string/txt_fun" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/search"
-                android:text="@string/txt_special_for_you" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/search"
-                android:text="@string/txt_special_for_you" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/search"
-                android:text="@string/txt_special_for_you" />
 
 
         </LinearLayout>
