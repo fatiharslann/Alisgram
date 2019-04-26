@@ -26,6 +26,8 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -123,11 +125,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             toastBasarili();
+                            FirebaseHelper.ekleKullanici();
                             startActivity(new Intent(MainActivity.this, Profil.class));
                             finish();
                         }
                     }
                 });}
+
+    private void firebaseEkle(String uuid) {
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("Kullanicilar");
+        ref.setValue(uuid);
+
+    }
+
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         //Log.d(TAG, "onConnectionFailed:" + connectionResult);
