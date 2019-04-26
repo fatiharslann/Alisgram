@@ -50,9 +50,20 @@
 
         <Button
             android:id="@+id/bt_cikis"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cikis" />
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/logout"/>
+
+        <Button
+            android:id="@+id/bt_guncelleme"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/update" />
 
     </RelativeLayout>
 
