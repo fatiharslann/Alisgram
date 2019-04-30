@@ -33,8 +33,11 @@ public class KayitEkrani extends AppCompatActivity {
         EditText et_email = findViewById(R.id.et_email);
         EditText et_sifre = findViewById(R.id.et_sifre);
 
+        EditText et_isim = findViewById(R.id.et_isim);
+
         String email = et_email.getText().toString();
         String parola = et_sifre.getText().toString();
+        final String isim = et_isim.getText().toString();
 
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(getApplicationContext(), "Lütfen emailinizi giriniz", Toast.LENGTH_SHORT).show();
@@ -63,6 +66,7 @@ public class KayitEkrani extends AppCompatActivity {
 
                         //İşlem başarılı olduğu takdir de giriş yapılıp MainActivity e yönlendiriyoruz.
                         else {
+                            FirebaseHelper.ekleKullanici(isim);
                             startActivity(new Intent(KayitEkrani.this, MainActivity.class));
                             finish();
                         }
