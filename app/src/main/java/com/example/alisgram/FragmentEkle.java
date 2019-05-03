@@ -1,7 +1,9 @@
 package com.example.alisgram;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -18,8 +20,12 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -27,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class FragmentEkle extends Fragment {
     private MaterialSpinner Kategori_spinner, Alt_Kategori_spinner;
@@ -35,19 +42,20 @@ public class FragmentEkle extends Fragment {
     private TextView saat_text_1,saat_text_2,saat_text_3;
     private View view;
     private Switch hatirlatici_switch,gizlilik_switch;
-    private ArrayList<String> list_gun,list_saat;
+    private ArrayList<String> list_gun,list_saat,listKategori,listAltKategori;
     private EditText hatirlatici_text;
 
     private FirebaseDatabase mDatabase;
-    private DatabaseReference mDatabaseReference;
+    private DatabaseReference mDatabaseReference,kDatabaseReference;
 
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
 
     private Intent maine_don;
 
-    private  String kategori_adi,alt_kategori_adi,etiket,detay,hatirlatici,tarih;
+    private String kategori_adi,alt_kategori_adi,etiket,detay,hatirlatici,tarih;
     private boolean gizlilik;
+    private int kategori_id;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,10 +63,13 @@ public class FragmentEkle extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_fragment_ekle, container, false);
         tanimla();
+        kategoriGetir();
         return view;
     }
 
     private void tanimla() {
+
+        mDatabase = FirebaseDatabase.getInstance();
         //--------------------------------------------------------------- Tarih
 
         Date currentTime = Calendar.getInstance().getTime();
@@ -75,28 +86,6 @@ public class FragmentEkle extends Fragment {
         list_gun = new ArrayList<>();
         list_saat = new ArrayList<>();
 
-        alt_kategori_adi = "Spor";
-        kategori_adi = "Yüzme";
-
-        Alt_Kategori_spinner = (MaterialSpinner) view.findViewById(R.id.Alt_Kategori_spinner);
-        Alt_Kategori_spinner.setItems("Yüzme", "Futbol", "Kitap Okuma", "Diş Fırçalama", "Diger");
-        Alt_Kategori_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
-
-            @Override
-            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                alt_kategori_adi=item;
-            }
-        });
-
-        Kategori_spinner = (MaterialSpinner) view.findViewById(R.id.Kategori_spinner);
-        Kategori_spinner.setItems("Spor", "Eğlence", "Eğitim", "Kişisel Gelişim", "Diger");
-        Kategori_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
-
-            @Override
-            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                kategori_adi=item;
-            }
-        });
         //--------------------------------------------------    Edit Text
         Detay_edit = view.findViewById(R.id.Detay_edit);
         Etiket_edit = view.findViewById(R.id.Etiket_edit);
@@ -116,6 +105,7 @@ public class FragmentEkle extends Fragment {
 
             }
         });
+
         //------------------------------------------------- Switch
         hatirlatici_switch = view.findViewById(R.id.hatirlatici_switch);
         hatirlatici_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -267,7 +257,6 @@ public class FragmentEkle extends Fragment {
 
         if(!list_gun.isEmpty() && !list_saat.isEmpty()){
 
-            mDatabase = FirebaseDatabase.getInstance();
             mDatabaseReference = mDatabase.getReference("aliskanliklar");
             String key = mDatabaseReference.push().getKey();
             ModelAliskanlik aliskanlik = new ModelAliskanlik();
@@ -303,10 +292,73 @@ public class FragmentEkle extends Fragment {
             Toast.makeText(getContext(), "Gün ve saat boş bırakılamaz", Toast.LENGTH_SHORT).show();
         }
 
+    }
 
+    private void kategoriGetir(){
 
+        Kategori_spinner = (MaterialSpinner) view.findViewById(R.id.Kategori_spinner);
+
+        kDatabaseReference = mDatabase.getReference("kategoriler");
+        Query query = kDatabaseReference.orderByChild("ustKategoriAdi").equalTo("Yok");
+
+        listKategori = new ArrayList<String>();
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listKategori.clear();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    String kategoriAdi=postSnapshot.child("kategoriAdi").getValue(String.class);
+                    listKategori.add(kategoriAdi);
+                    Kategori_spinner.setItems(listKategori);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.w("Firebase ERROR", "loadPost:onCancelled", databaseError.toException());
+            }
+        });
+
+        Kategori_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                kategori_adi=item;
+                altKategoriGetir();
+            }
+        });
 
     }
 
+
+    private void altKategoriGetir(){
+
+        listAltKategori = new ArrayList<String>();
+        Alt_Kategori_spinner = (MaterialSpinner) view.findViewById(R.id.Alt_Kategori_spinner);
+
+        Query queryy = kDatabaseReference.orderByChild("ustKategoriAdi").equalTo(kategori_adi);
+        queryy.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listAltKategori.clear();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    String AltKategoriAdi=postSnapshot.child("kategoriAdi").getValue(String.class);
+                    listAltKategori.add(AltKategoriAdi);
+                    Alt_Kategori_spinner.setItems(listAltKategori);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.w("Firebase ERROR", "loadPost:onCancelled", databaseError.toException());
+            }
+        });
+
+
+        Alt_Kategori_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                alt_kategori_adi=item;
+            }
+        });
+    }
 
 }

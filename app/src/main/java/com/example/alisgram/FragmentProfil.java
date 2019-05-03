@@ -33,7 +33,6 @@ public class FragmentProfil extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,6 +43,7 @@ public class FragmentProfil extends Fragment {
         TextView tvName = view.findViewById(R.id.tvName);
         TextView tvDescription = view.findViewById(R.id.tvDescription);
         Button bt_cikis = view.findViewById(R.id.bt_cikis);
+        Button bt_guncelleme = view.findViewById(R.id.bt_guncelleme);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -65,6 +65,15 @@ public class FragmentProfil extends Fragment {
             }
         });
 
+        bt_guncelleme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (auth != null) {
+                    openDialog();
+                }
+            }
+        });
+
         viewPager = view.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
@@ -74,6 +83,8 @@ public class FragmentProfil extends Fragment {
         profilResminiYukle(view, user.getPhotoUrl());
         tvName.setText(user.getDisplayName());
         tvDescription.setText(user.getEmail());
+
+        //openDialog();
 
         return view;
     }
@@ -92,6 +103,12 @@ public class FragmentProfil extends Fragment {
     private void profilResminiYukle(View viev, Uri profilResim) {
         ImageView ivUserProfil = viev.findViewById(R.id.ivProfile);
         Picasso.get().load(profilResim).into(ivUserProfil);
+    }
+
+
+    private void openDialog() {
+        final CustomFragmentDialog dialog = new CustomFragmentDialog();
+        dialog.show(getFragmentManager(), "dialogTag");
     }
 
 }
