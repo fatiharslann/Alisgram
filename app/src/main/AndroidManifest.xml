@@ -15,6 +15,9 @@
         <activity android:name=".AnasayfaPopupActivity"
             android:theme="@style/AppTheme.CustomTheme">
         </activity>
+        <activity android:name=".ProfilAliskanlikGuncelle"
+            android:theme="@style/AppTheme.CustomTheme">
+        </activity>
         <activity
             android:name=".Splash"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
