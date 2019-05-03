@@ -1,6 +1,8 @@
 package com.example.alisgram;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -82,7 +84,7 @@ public class AliskanlikAdapter extends RecyclerView.Adapter<AliskanlikAdapter.My
                                 public void onClick(View v) {
                                     String aliskanlikId = mAliskanlikList.get(getAdapterPosition()).getAliskanlikId();
                                     mDatabase.child(aliskanlikId).setValue(null);
-
+                                    Toast.makeText(context, "Alışkanlık Silindi", Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .setNegativeButton("İptal", null)
@@ -93,7 +95,10 @@ public class AliskanlikAdapter extends RecyclerView.Adapter<AliskanlikAdapter.My
             editAliskanlik.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    String aliskanlikId = mAliskanlikList.get(getAdapterPosition()).getAliskanlikId();
+                    Intent intent = new Intent(context, ProfilAliskanlikGuncelle.class);
+                    intent.putExtra("aliskanlikId",aliskanlikId);
+                    context.startActivity(intent);
                 }
             });
         }
