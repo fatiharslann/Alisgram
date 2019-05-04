@@ -43,6 +43,12 @@ public class KesfetAdapter extends RecyclerView.Adapter<KesfetAdapter.MyViewHold
         return mAliskanlikList.size();
     }
 
+    public void updateList(ArrayList newList){
+        mAliskanlikList=new ArrayList<>();
+        mAliskanlikList.addAll(newList);
+        notifyDataSetChanged();
+    }
+
 
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
