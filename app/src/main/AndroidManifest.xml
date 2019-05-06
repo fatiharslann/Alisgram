@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.alisgram">
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
+    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
     <application
+        android:name=".Alisgram"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
@@ -34,6 +36,12 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
-    </application>
 
+        <service
+            android:name=".BildirimServisi"
+            android:exported="false"></service>
+
+        <receiver android:name=".BootReceiver"
+            android:process=":remote"></receiver>
+    </application>
 </manifest>
