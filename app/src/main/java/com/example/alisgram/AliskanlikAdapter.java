@@ -1,9 +1,6 @@
 package com.example.alisgram;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +11,7 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.yarolegovich.lovelydialog.LovelyProgressDialog;
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
-import com.yarolegovich.lovelydialog.LovelyTextInputDialog;
 
 import java.util.ArrayList;
 
@@ -28,12 +23,14 @@ public class AliskanlikAdapter extends RecyclerView.Adapter<AliskanlikAdapter.My
     private LayoutInflater inflater;
     private DatabaseReference mDatabase;
     private Context context;
+    private int state;
 
-    public AliskanlikAdapter(Context context, ArrayList<ModelAliskanlik> aliskanliklar) {
+    public AliskanlikAdapter(Context context, ArrayList<ModelAliskanlik> aliskanliklar,int state) {
         this.context = context;
         inflater = LayoutInflater.from(context);
         this.mAliskanlikList = aliskanliklar;
         mDatabase = FirebaseDatabase.getInstance().getReference("aliskanliklar");
+        this.state = state;
     }
 
 
@@ -69,38 +66,47 @@ public class AliskanlikAdapter extends RecyclerView.Adapter<AliskanlikAdapter.My
             deleteAliskanlik = (ImageView) itemView.findViewById(R.id.deleteAliskanlik);
             editAliskanlik = (ImageView) itemView.findViewById(R.id.editAliskanlik);
             gizlilikAliskanlik = (ImageView) itemView.findViewById(R.id.gizlilikAliskanlik);
+            if(state == 0){
 
-            deleteAliskanlik.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new LovelyStandardDialog(context, LovelyStandardDialog.ButtonLayout.VERTICAL)
-                            .setTopColorRes(R.color.red)
-                            .setButtonsColorRes(R.color.colorBtn)
-                            .setIcon(R.drawable.delete2)
-                            .setTitle("Alışkanlık silinecek!")
-                            .setMessage("Devam etmek istiyor musunuz?")
-                            .setPositiveButton("Tamam", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    String aliskanlikId = mAliskanlikList.get(getAdapterPosition()).getAliskanlikId();
-                                    mDatabase.child(aliskanlikId).setValue(null);
-                                    Toast.makeText(context, "Alışkanlık Silindi", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .setNegativeButton("İptal", null)
-                            .show();
-                }
-            });
 
-            editAliskanlik.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String aliskanlikId = mAliskanlikList.get(getAdapterPosition()).getAliskanlikId();
-                    Intent intent = new Intent(context, ProfilAliskanlikGuncelle.class);
-                    intent.putExtra("aliskanlikId",aliskanlikId);
-                    context.startActivity(intent);
-                }
-            });
+                deleteAliskanlik.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new LovelyStandardDialog(context, LovelyStandardDialog.ButtonLayout.VERTICAL)
+                                .setTopColorRes(R.color.red)
+                                .setButtonsColorRes(R.color.colorBtn)
+                                .setIcon(R.drawable.delete2)
+                                .setTitle("Alışkanlık silinecek!")
+                                .setMessage("Devam etmek istiyor musunuz?")
+                                .setPositiveButton("Tamam", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        String aliskanlikId = mAliskanlikList.get(getAdapterPosition()).getAliskanlikId();
+                                        mDatabase.child(aliskanlikId).setValue(null);
+                                        Toast.makeText(context, "Alışkanlık Silindi", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setNegativeButton("İptal", null)
+                                .show();
+                    }
+                });
+
+                editAliskanlik.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String aliskanlikId = mAliskanlikList.get(getAdapterPosition()).getAliskanlikId();
+                        Intent intent = new Intent(context, ProfilAliskanlikGuncelle.class);
+                        intent.putExtra("aliskanlikId",aliskanlikId);
+                        context.startActivity(intent);
+                    }
+                });
+            }else {
+                deleteAliskanlik.setVisibility(View.INVISIBLE);
+                editAliskanlik.setVisibility(View.INVISIBLE);
+                gizlilikAliskanlik.setVisibility(View.INVISIBLE);
+            }
+
+
         }
 
         public void setData(ModelAliskanlik selectedProduct, int position) {

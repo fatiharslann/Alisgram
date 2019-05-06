@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,7 +37,6 @@ public class BildirimServisi extends IntentService {
 
     public BildirimServisi() {
         super("BildirimServisi");
-        Log.d("TAGIM","servis");
     }
 
     @Override

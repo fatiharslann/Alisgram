@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.alisgram">
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
-    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:name=".Alisgram"
         android:allowBackup="true"
@@ -11,15 +13,16 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ProfilBaska"></activity>
         <activity
             android:name=".KayitEkrani"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"></activity>
-        <activity android:name=".AnasayfaPopupActivity"
-            android:theme="@style/AppTheme.CustomTheme">
-        </activity>
-        <activity android:name=".ProfilAliskanlikGuncelle"
-            android:theme="@style/AppTheme.CustomTheme">
-        </activity>
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
+            android:name=".AnasayfaPopupActivity"
+            android:theme="@style/AppTheme.CustomTheme"></activity>
+        <activity
+            android:name=".ProfilAliskanlikGuncelle"
+            android:theme="@style/AppTheme.CustomTheme"></activity>
         <activity
             android:name=".Splash"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
@@ -39,9 +42,11 @@
 
         <service
             android:name=".BildirimServisi"
-            android:exported="false"></service>
+            android:exported="false" />
 
-        <receiver android:name=".BootReceiver"
-            android:process=":remote"></receiver>
+        <receiver
+            android:name=".BootReceiver"
+            android:process=":remote" />
     </application>
+
 </manifest>
