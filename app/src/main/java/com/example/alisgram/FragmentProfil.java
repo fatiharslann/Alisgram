@@ -77,8 +77,8 @@ public class FragmentProfil extends Fragment {
         viewPager = view.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
-        tabLayout = view.findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
+        //tabLayout = view.findViewById(R.id.tabs);
+        //tabLayout.setupWithViewPager(viewPager);
 
         profilResminiYukle(view, user.getPhotoUrl());
         tvName.setText(user.getDisplayName());
@@ -107,7 +107,7 @@ public class FragmentProfil extends Fragment {
 
 
     private void openDialog() {
-        final CustomFragmentDialog dialog = new CustomFragmentDialog();
+        CustomFragmentDialog dialog = new CustomFragmentDialog();
         dialog.show(getFragmentManager(), "dialogTag");
     }
 

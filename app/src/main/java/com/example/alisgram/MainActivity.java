@@ -1,5 +1,6 @@
 package com.example.alisgram;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import dmax.dialog.SpotsDialog;
+
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private FirebaseAuth mAuth;
@@ -36,11 +39,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private GoogleApiClient mGoogleApiClient;
     SignInButton signInButton;
     int RC_SIGN_IN = 101;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dialog = new SpotsDialog.Builder().setContext(this).setTheme(R.style.Custom).build();
 
         //alt menu kapatma
         View decorView = getWindow().getDecorView();
@@ -64,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.show();
                 signIn();
             }
         });
@@ -73,12 +80,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             startActivity(new Intent(MainActivity.this,Profil.class));
         }
 
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signIn();
-            }
-        });
     }
 
 
@@ -124,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             Toast.makeText(MainActivity.this, "Yetkilendirme hatası.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            toastBasarili();
+                            dialog.dismiss();
                             FirebaseHelper.ekleKullanici();
                             startActivity(new Intent(MainActivity.this, Profil.class));
                             finish();

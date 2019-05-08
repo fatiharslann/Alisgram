@@ -52,6 +52,8 @@ public class FirebaseHelper {
     }
 
     public static void readData(final MyCallback myCallback) {
+        if (isNullUser(user))
+            user = getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("Kullanicilar/" + user.getUid());
 

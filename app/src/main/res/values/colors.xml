@@ -13,4 +13,6 @@
     <color name="background_deneme">#F98820</color>
     <color name="red">#D3B7B5</color>
     <color name="white">#fff</color>
+    <color name="profil">#62c7ff</color>
+    <color name="gray">#b9c5cc</color>
 </resources>
