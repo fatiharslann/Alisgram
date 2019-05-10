@@ -1,9 +1,6 @@
 package com.example.alisgram;
 
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -13,13 +10,27 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.Console;
-
 public class FirebaseHelper {
 
     static FirebaseUser user;
     static ModelKullanici kullanici;
     static int temp = 0;
+
+    public static void takipEt(String from,String to){
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Takip");
+
+        String key = myRef.push().getKey();
+        Takip takip = new Takip();
+        takip.setFrom(from);
+        takip.setTo(to);
+        takip.setTakip_id(key);
+
+        myRef.child(key).setValue(takip);
+
+    }
+
 
     private static FirebaseUser getCurrentUser() {
         return FirebaseAuth.getInstance().getCurrentUser();
