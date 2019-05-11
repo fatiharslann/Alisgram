@@ -15,4 +15,5 @@
 
 
     <string name="client_id">962977850206-ktl2a178heut8dlj6cdnvdcsrgb0b5ca.apps.googleusercontent.com</string>
+    <string name="NOTIFICATION_ID_KEY">1</string>
 </resources>

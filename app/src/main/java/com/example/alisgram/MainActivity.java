@@ -1,24 +1,24 @@
 package com.example.alisgram;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,21 +26,61 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private FirebaseAuth mAuth;
     GoogleSignInClient mGoogleSignInClient;
+    private AlarmManager alarmManager;
+    private PendingIntent pendingIntent;
     private GoogleApiClient mGoogleApiClient;
     SignInButton signInButton;
     int RC_SIGN_IN = 101;
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = mDatabase.getReference("aliskanliklar");
+    private NotificationManagerCompat notificationManagerCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        scheduleAlarm();
+
+        String evet = getIntent().getStringExtra("evet");
+        String uid = getIntent().getStringExtra("uid");
+        String hayir = getIntent().getStringExtra("hayir");
+
+        if(uid != null){
+            notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+            if(evet != null){
+                myRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                           ModelAliskanlik aliskanlik = dataSnapshot.getValue(ModelAliskanlik.class);
+                           int progress = aliskanlik.getAliskanlikSeviye();
+                           myRef.child(aliskanlik.getAliskanlikId()).child("aliskanlikSeviye").setValue(progress+1);
+                           notificationManagerCompat.cancel(1);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+            else if(hayir != null){
+                Toast.makeText(MainActivity.this, "Alışkanlık ilerletilmedi :((", Toast.LENGTH_SHORT).show();
+                notificationManagerCompat.cancel(2);
+            }
+        }//*/
+
+
+
 
         //alt menu kapatma
         View decorView = getWindow().getDecorView();
@@ -79,6 +119,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 signIn();
             }
         });
+
+
     }
 
 
@@ -182,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             CustomToast.successful(MainActivity.this);
                             startActivity(new Intent(MainActivity.this, MainActivity.class));
                         } else {
-                            Log.e("Giriş Hatası", task.getException().getMessage());
+                          //  Log.e("Giriş Hatası", task.getException().getMessage());
                             CustomToast.error(MainActivity.this);
                         }
                     }
@@ -192,4 +234,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void bt_kayit_click(View view) {
         startActivity(new Intent(MainActivity.this, KayitEkrani.class));
     }
+    public void scheduleAlarm() {
+        Intent intent = new Intent(getApplicationContext(), BootReceiver.class);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, BootReceiver.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        long firstMillis = System.currentTimeMillis(); // alarm is set right away
+        AlarmManager alarm = (AlarmManager)getSystemService(ALARM_SERVICE);
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis,
+                1000, pIntent);
+    }
+
 }

@@ -1,11 +1,7 @@
 package com.example.alisgram;
 
-import android.app.Activity;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,13 +20,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-
-public class FragmentEdinliklerim extends Fragment {
+public class FragmentBaskaEdinilenler extends Fragment {
 
     private RecyclerView recyclerView;
     private DatabaseReference mDatabase;
     private View view;
     private ArrayList<ModelAliskanlik> aliskanliklar;
+    String key = ProfilBaska.deneme;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,7 +37,7 @@ public class FragmentEdinliklerim extends Fragment {
         aliskanliklar = new ArrayList<ModelAliskanlik>();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("aliskanliklar");
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        Query query = mDatabase.orderByChild("aliskanlikKullaniciId").equalTo(user.getUid());
+        Query query = mDatabase.orderByChild("aliskanlikKullaniciId").equalTo(key);
         recyclerView = view.findViewById(R.id.kullaniciEdindiklerimList);
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -51,7 +48,7 @@ public class FragmentEdinliklerim extends Fragment {
                     if (aliskanlik.getAliskanlikDurum()==1)
                         aliskanliklar.add(aliskanlik);
                 }
-                AliskanlikAdapter productAdapter = new AliskanlikAdapter(view.getContext(), aliskanliklar,0);
+                AliskanlikAdapter productAdapter = new AliskanlikAdapter(view.getContext(), aliskanliklar,1);
                 recyclerView.setAdapter(productAdapter);
 
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
@@ -69,5 +66,4 @@ public class FragmentEdinliklerim extends Fragment {
 
         return view;
     }
-
 }
