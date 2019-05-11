@@ -53,7 +53,8 @@ public class FirebaseHelper {
 
     public static void readData(final MyCallback myCallback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("Kullanicilar/" + user.getUid());
+
+        DatabaseReference ref = database.getReference("Kullanicilar/" + getCurrentUser().getUid());
 
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -71,6 +72,7 @@ public class FirebaseHelper {
             }
         };
         ref.addListenerForSingleValueEvent(postListener);
+
     }
 
 
@@ -131,5 +133,4 @@ public class FirebaseHelper {
         else
             return true;
     }
-
 }
