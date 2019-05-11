@@ -14,5 +14,5 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo2" />
 </RelativeLayout>

@@ -38,12 +38,8 @@
                 android:id="@+id/seninicin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableTop="@drawable/search"
                 android:text="@string/txt_special_for_you"
-                />
-
-
-
+                android:background="@drawable/kesfet_button"/>
 
         </LinearLayout>
 

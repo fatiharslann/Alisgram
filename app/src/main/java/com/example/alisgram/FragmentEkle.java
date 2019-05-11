@@ -2,6 +2,7 @@ package com.example.alisgram;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -146,9 +147,11 @@ public class FragmentEkle extends Fragment {
             public void onClick(View v) {
                 if(pazartesi.getBackground().getConstantState()==getResources().getDrawable(R.drawable.circle).getConstantState()){
                     pazartesi.setBackgroundResource(R.drawable.selected_circle);
+                    pazartesi.setTextColor(Color.WHITE);
                     list_gun.add("Pazartesi");
                 }else {
                     pazartesi.setBackgroundResource(R.drawable.circle);
+                    pazartesi.setTextColor(Color.BLACK);
                     list_gun.remove("Pazartesi");
                 }
             }
@@ -158,9 +161,11 @@ public class FragmentEkle extends Fragment {
             public void onClick(View v) {
                 if(sali.getBackground().getConstantState()==getResources().getDrawable(R.drawable.circle).getConstantState()){
                     sali.setBackgroundResource(R.drawable.selected_circle);
+                    sali.setTextColor(Color.WHITE);
                     list_gun.add("Salı");
                 }else {
                     sali.setBackgroundResource(R.drawable.circle);
+                    sali.setTextColor(Color.BLACK);
                     list_gun.remove("Salı");
                 }
             }
@@ -170,9 +175,11 @@ public class FragmentEkle extends Fragment {
             public void onClick(View v) {
                 if(carsamba.getBackground().getConstantState()==getResources().getDrawable(R.drawable.circle).getConstantState()){
                     carsamba.setBackgroundResource(R.drawable.selected_circle);
+                    carsamba.setTextColor(Color.WHITE);
                     list_gun.add("Çarşamba");
                 }else {
                     carsamba.setBackgroundResource(R.drawable.circle);
+                    carsamba.setTextColor(Color.BLACK);
                     list_gun.remove("Çarşamba");
                 }
             }
@@ -182,9 +189,11 @@ public class FragmentEkle extends Fragment {
             public void onClick(View v) {
                 if(persembe.getBackground().getConstantState()==getResources().getDrawable(R.drawable.circle).getConstantState()){
                     persembe.setBackgroundResource(R.drawable.selected_circle);
+                    persembe.setTextColor(Color.WHITE);
                     list_gun.add("Perşembe");
                 }else {
                     persembe.setBackgroundResource(R.drawable.circle);
+                    persembe.setTextColor(Color.BLACK);
                     list_gun.remove("Perşembe");
                 }
             }
@@ -194,9 +203,11 @@ public class FragmentEkle extends Fragment {
             public void onClick(View v) {
                 if(cuma.getBackground().getConstantState()==getResources().getDrawable(R.drawable.circle).getConstantState()){
                     cuma.setBackgroundResource(R.drawable.selected_circle);
+                    cuma.setTextColor(Color.WHITE);
                     list_gun.add("Cuma");
                 }else {
                     cuma.setBackgroundResource(R.drawable.circle);
+                    cuma.setTextColor(Color.BLACK);
                     list_gun.remove("Cuma");
                 }
             }
@@ -206,9 +217,11 @@ public class FragmentEkle extends Fragment {
             public void onClick(View v) {
                 if(cumartesi.getBackground().getConstantState()==getResources().getDrawable(R.drawable.circle).getConstantState()){
                     cumartesi.setBackgroundResource(R.drawable.selected_circle);
+                    cumartesi.setTextColor(Color.WHITE);
                     list_gun.add("Cumartesi");
                 }else {
                     cumartesi.setBackgroundResource(R.drawable.circle);
+                    cumartesi.setTextColor(Color.BLACK);
                     list_gun.remove("Cumartesi");
                 }
             }
@@ -218,9 +231,11 @@ public class FragmentEkle extends Fragment {
             public void onClick(View v) {
                 if(pazar.getBackground().getConstantState()==getResources().getDrawable(R.drawable.circle).getConstantState()){
                     pazar.setBackgroundResource(R.drawable.selected_circle);
+                    pazar.setTextColor(Color.WHITE);
                     list_gun.add("Pazar");
                 }else {
                     pazar.setBackgroundResource(R.drawable.circle);
+                    pazar.setTextColor(Color.BLACK);
                     list_gun.remove("Pazar");
                 }
             }

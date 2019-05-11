@@ -1,8 +1,10 @@
 package com.example.alisgram;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -22,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class FragmentKesfet extends Fragment {
 
@@ -75,7 +79,7 @@ public class FragmentKesfet extends Fragment {
         view = inflater.inflate(R.layout.fragment_fragment_kesfet, container, false);
 
         dbLLayout = view.findViewById(R.id.dbLLayout);
-        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, WRAP_CONTENT);
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("aliskanliklar");
         recyclerView = view.findViewById(R.id.kesfetItemList);
@@ -106,8 +110,11 @@ public class FragmentKesfet extends Fragment {
                         kategoriButon.setId(kategori.getKategoriId());
                         kategoriButon.setText(kategori.getKategoriAdi());
                         final String kategoriAdi = String.valueOf(kategoriButon.getText());
-                        Drawable top = getResources().getDrawable(R.drawable.search);
-                        kategoriButon.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
+                        kategoriButon.setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.kesfet_button));
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+                        params.setMargins(10, 0, 0, 0);                        //Drawable top = getResources().getDrawable(R.drawable.search);
+                        kategoriButon.setLayoutParams(params);
+                        //kategoriButon.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
 
                         kategoriButon.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -147,13 +154,10 @@ public class FragmentKesfet extends Fragment {
 
             }
         });
-
-
         return view;
     }
 
     private void listedeAra(String s) {
-
         if (s.trim().equals(""))
             adapter.updateList(aliskanliklar);
         else {
@@ -164,10 +168,8 @@ public class FragmentKesfet extends Fragment {
                     tempLists.add(aliskanlik);
                 }
             }
-
             adapter.updateList(tempLists);
         }
-
     }
 
 }

@@ -15,4 +15,5 @@
     <color name="white">#fff</color>
     <color name="profil">#62c7ff</color>
     <color name="gray">#b9c5cc</color>
+    <color name="button">#dcdced</color>
 </resources>
