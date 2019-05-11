@@ -192,5 +192,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     public void bt_kayit_click(View view) {
         startActivity(new Intent(MainActivity.this, KayitEkrani.class));
+        finish();
     }
 }

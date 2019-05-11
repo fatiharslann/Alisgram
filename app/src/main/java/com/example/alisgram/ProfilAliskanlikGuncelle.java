@@ -312,6 +312,12 @@ public class ProfilAliskanlikGuncelle extends AppCompatActivity {
 
                 aliskanlik.setAliskanlikGizlilik(gizlilik);
 
+                list_saat.clear();
+                for (int i=0;i<list_saatler.size();i++){
+                    if (!list_saatler.get(i).getText().equals(""))
+                        list_saat.add(list_saatler.get(i).getText().toString());
+                }
+                aliskanlik.setAliskanlikSaatler(list_saat);
                 mDatabase.setValue(aliskanlik);
             }
         });

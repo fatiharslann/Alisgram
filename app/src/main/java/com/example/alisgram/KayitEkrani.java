@@ -84,4 +84,9 @@ public class KayitEkrani extends AppCompatActivity {
                     }
                 });
     }
+
+    public void bt_giris_click(View view){
+        startActivity(new Intent(KayitEkrani.this,MainActivity.class));
+        finish();
+    }
 }
