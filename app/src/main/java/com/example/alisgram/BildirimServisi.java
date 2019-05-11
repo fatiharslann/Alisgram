@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,7 +48,7 @@ public class BildirimServisi extends IntentService {
         if(mAuth != null){
             mDatabase = FirebaseDatabase.getInstance();
             myRef = mDatabase.getReference("aliskanliklar");
-           //notification_build("-LcbHcRFhr5FPi_oCQCM");
+           //notification_build("-LcbHcRFhr5FPi_oCQCMö");
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -58,7 +59,11 @@ public class BildirimServisi extends IntentService {
                                 saatler=aliskanlik.getAliskanlikSaatler();
                                 gunler=aliskanlik.getAliskanlikGunler();
                                 String uid=aliskanlik.getAliskanlikId();
-                                bildirim_yolla(gunler,saatler,uid);
+                                String hatirlat = aliskanlik.getAlislanlikOnHatirlatici();
+                                if(aliskanlik.getAliskanlikDurum() == 0){
+                                    bildirim_yolla(gunler,saatler,uid,hatirlat);
+                                }
+
                             }
                         }
                     }
@@ -70,17 +75,25 @@ public class BildirimServisi extends IntentService {
             });//*/
         }
     }
-    private boolean bildirim_yolla(ArrayList<String> gunler, ArrayList<String> saatler,String uid) {
+    private boolean bildirim_yolla(ArrayList<String> gunler, ArrayList<String> saatler,String uid,String hatirlat) {
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
         Date d = new Date();
         String dayOfTheWeek = sdf.format(d);
         String gun="",saat="";
 
-        SimpleDateFormat format = new SimpleDateFormat("HH", Locale.ENGLISH);
-        String hour = format.format(new Date());
+
+        SimpleDateFormat saat_format = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+        saat = saat_format.format(new Date());
 
         SimpleDateFormat dakika_format = new SimpleDateFormat("mm", Locale.ENGLISH);
         String dakika = dakika_format.format(new Date());
+
+        SimpleDateFormat akrep_format = new SimpleDateFormat("HH", Locale.ENGLISH);
+        String akrep = akrep_format.format(new Date());
+
+
+        saat = akrep+":"+dakika;
+
 
         ArrayList<String> week = new ArrayList<>();
         ArrayList <String> hafta = new ArrayList<>();
@@ -90,13 +103,6 @@ public class BildirimServisi extends IntentService {
 
         if(week.contains(dayOfTheWeek)){
             gun = hafta.get(week.indexOf(dayOfTheWeek));
-        }
-
-        if(Integer.valueOf(dakika)<=9){
-            saat = String.valueOf(hour)+":0"+String.valueOf(dakika);
-        }
-        else{
-            saat = String.valueOf(hour)+":"+String.valueOf(dakika);
         }
         /*int alt_dakika = Integer.valueOf(dakika);
         if(alt_dakika>=5){
@@ -109,10 +115,25 @@ public class BildirimServisi extends IntentService {
         String str_altdakika= String.valueOf(alt_dakika);
         String str_ustdakika= String.valueOf(ust_dakika);
 */
-
+        Log.d("TAGIM","devam");
+        int saat_hatirlat = 0;
         for(String aliskanlik_gun : gunler){
             if(aliskanlik_gun.equals(gun)){
                 for(String aliskanlik_saat : saatler){
+                   /* if(Integer.valueOf(hatirlat) != 0){
+                        if(Integer.valueOf(dakika)+Integer.valueOf(hatirlat) >= 60){
+                            saat  = String.valueOf(Integer.valueOf(akrep)+1) + ":0"+ String.valueOf((Integer.valueOf(dakika)+Integer.valueOf(hatirlat)) - 60);
+                        }else {
+                            saat = akrep + ":"+ String.valueOf(Integer.valueOf(dakika)+Integer.valueOf(hatirlat));
+                        }
+                        Log.d("TAGIM",saat+" "+aliskanlik_saat);
+                    }
+
+                    Log.d("TAGIM",saat+" deneme deneme");
+
+                    if(Integer.valueOf(aliskanlik_saat).equals(Integer.valueOf(saat))){
+                        notification_build(uid);
+                    }//*/
                     if(aliskanlik_saat.equals(saat)){
                         notification_build(uid);
                     }

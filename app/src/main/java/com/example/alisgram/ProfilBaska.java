@@ -1,12 +1,15 @@
 package com.example.alisgram;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,7 +28,8 @@ public class ProfilBaska extends AppCompatActivity {
     private TextView profil_baskasi_isim,profil_baskasi_bio;
     private ViewPager profil_baska_view;
     private TabLayout profil_tabs;
-    public static String deneme;
+    private ImageView star;
+    public static  String deneme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +37,6 @@ public class ProfilBaska extends AppCompatActivity {
         setContentView(R.layout.activity_profil_baska);
         key = getIntent().getStringExtra("uid");
         deneme = key;
-        Log.d("TAGIM",key);
         tanimla();
     }
 
@@ -74,4 +77,12 @@ public class ProfilBaska extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
+    public void btn_takip(View view) {
+        String uid =  FirebaseHelper.getCurrentKullanici().getUuid();
+        Log.d("TAGIM",uid+" "+key);
+
+        FirebaseHelper.takipEt(uid,key);
+        Toast.makeText(this, "Takip Başarılı!", Toast.LENGTH_SHORT).show();
+
+    }
 }
