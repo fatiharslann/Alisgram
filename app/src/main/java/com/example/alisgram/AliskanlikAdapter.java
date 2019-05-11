@@ -70,6 +70,20 @@ public class AliskanlikAdapter extends RecyclerView.Adapter<AliskanlikAdapter.My
             editAliskanlik = (ImageView) itemView.findViewById(R.id.editAliskanlik);
             gizlilikAliskanlik = (ImageView) itemView.findViewById(R.id.gizlilikAliskanlik);
 
+            gizlilikAliskanlik.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mAliskanlikList.get(getAdapterPosition()).isAliskanlikGizlilik()){
+                        FirebaseHelper.setAliskanlikGizlilik(mAliskanlikList.get(getAdapterPosition()).getAliskanlikId(),false);
+                        gizlilikAliskanlik.setImageResource(R.drawable.eye1);
+                    }
+                    else{
+                        FirebaseHelper.setAliskanlikGizlilik(mAliskanlikList.get(getAdapterPosition()).getAliskanlikId(),true);
+                        gizlilikAliskanlik.setImageResource(R.drawable.eye2);
+                    }
+                }
+            });
+
             deleteAliskanlik.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -106,6 +120,10 @@ public class AliskanlikAdapter extends RecyclerView.Adapter<AliskanlikAdapter.My
         public void setData(ModelAliskanlik selectedProduct, int position) {
             this.aliskanlikEtiket.setText(selectedProduct.getAliskanlikEtiket());
             this.aliskanlikAciklama.setText(selectedProduct.getAliskanlikDetay());
+            if (mAliskanlikList.get(position).isAliskanlikGizlilik())
+                this.gizlilikAliskanlik.setImageResource(R.drawable.eye2);
+            else
+                this.gizlilikAliskanlik.setImageResource(R.drawable.eye1);
         }
 
 
