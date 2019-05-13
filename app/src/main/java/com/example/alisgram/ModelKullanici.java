@@ -1,5 +1,7 @@
 package com.example.alisgram;
 
+import android.net.Uri;
+
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -15,6 +17,7 @@ public class ModelKullanici {
     String cinsiyet = "?";
     String dogumTarihi = "?";
     String uuid = "?";
+    String profilUri = "?";
 
     public ModelKullanici() {
     }
@@ -26,6 +29,14 @@ public class ModelKullanici {
         this.cinsiyet = cinsiyet;
         this.dogumTarihi = dogumTarihi;
         this.uuid = uuid;
+    }
+
+    public String getProfilUri() {
+        return profilUri;
+    }
+
+    public void setProfilUri(String profilUri) {
+        this.profilUri = profilUri;
     }
 
     public String getEmail() {

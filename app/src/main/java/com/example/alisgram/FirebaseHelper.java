@@ -14,7 +14,14 @@ public class FirebaseHelper {
 
     static FirebaseUser user;
     static ModelKullanici kullanici;
-    static int temp = 0;
+
+    public interface MyCallback {
+        void onCallback(ModelKullanici value);
+    }
+
+    public interface IKullaniciResmi {
+        void onCallback(String userImage);
+    }
 
     public static void takipEt(String from,String to){
 
@@ -54,17 +61,19 @@ public class FirebaseHelper {
 
         kullanici.setEmail(user.getEmail());
         kullanici.setUuid(user.getUid());
+        String[] displayName = user.getDisplayName().split(" ");
+
+        kullanici.setSoyisim(displayName[displayName.length - 1]);
+        kullanici.setIsim(displayName[0]);
 
         return kullanici;
     }
 
-    public interface MyCallback {
-        void onCallback(ModelKullanici value);
-    }
 
     public static void readData(final MyCallback myCallback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("Kullanicilar/" + user.getUid());
+
+        DatabaseReference ref = database.getReference("Kullanicilar/" + getCurrentUser().getUid());
 
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -82,6 +91,7 @@ public class FirebaseHelper {
             }
         };
         ref.addListenerForSingleValueEvent(postListener);
+
     }
 
 
@@ -99,7 +109,9 @@ public class FirebaseHelper {
 
         if (!isNullUser(user)) {
             ModelKullanici kullanici = getCurrentKullanici();
+            kullanici.setProfilUri(user.getPhotoUrl().toString());
             kullaniciEkle(kullanici);
+            //Log.d("FirebaseHelper", user.getPhotoUrl().toString());
         }
     }
 
@@ -143,4 +155,26 @@ public class FirebaseHelper {
             return true;
     }
 
+    public static void getKullaniciResmi(String userId, final IKullaniciResmi callback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        DatabaseReference ref = database.getReference("Kullanicilar/" + userId);
+
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                kullanici = dataSnapshot.getValue(ModelKullanici.class);
+
+                callback.onCallback(kullanici.getProfilUri());
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        ref.addListenerForSingleValueEvent(postListener);
+    }
 }

@@ -1,14 +1,21 @@
 package com.example.alisgram;
+
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class KesfetAdapter extends RecyclerView.Adapter<KesfetAdapter.MyViewHolder> {
@@ -43,8 +50,8 @@ public class KesfetAdapter extends RecyclerView.Adapter<KesfetAdapter.MyViewHold
         return mAliskanlikList.size();
     }
 
-    public void updateList(ArrayList newList){
-        mAliskanlikList=new ArrayList<>();
+    public void updateList(ArrayList newList) {
+        mAliskanlikList = new ArrayList<>();
         mAliskanlikList.addAll(newList);
         notifyDataSetChanged();
     }
@@ -54,11 +61,14 @@ public class KesfetAdapter extends RecyclerView.Adapter<KesfetAdapter.MyViewHold
 
         TextView aliskanlikEtiket;
         RatingBar aliskanlikSeviye;
+        CircleImageView ivProfile;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            aliskanlikEtiket = (TextView) itemView.findViewById(R.id.kesfetAliskanlikAdi);
-            aliskanlikSeviye = (RatingBar) itemView.findViewById(R.id.kesfetRatingBar);
+            aliskanlikEtiket = itemView.findViewById(R.id.kesfetAliskanlikAdi);
+            aliskanlikSeviye = itemView.findViewById(R.id.kesfetRatingBar);
+            ivProfile = itemView.findViewById(R.id.ivProfile);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -70,10 +80,10 @@ public class KesfetAdapter extends RecyclerView.Adapter<KesfetAdapter.MyViewHold
                     float paliskanlikSeviye = paliskanlik.getAliskanlikSeviye();
 
                     Intent intent = new Intent(mcon, AnasayfaPopupActivity.class);
-                    intent.putExtra("aliskanlikId",aliskanlikId);
-                    intent.putExtra("aliskanlikAdi",aliskanlikAdi);
-                    intent.putExtra("aliskanlikSeviye",paliskanlikSeviye);
-                    intent.putExtra("aliskanlikKullanici",aliskanlikKullanici);
+                    intent.putExtra("aliskanlikId", aliskanlikId);
+                    intent.putExtra("aliskanlikAdi", aliskanlikAdi);
+                    intent.putExtra("aliskanlikSeviye", paliskanlikSeviye);
+                    intent.putExtra("aliskanlikKullanici", aliskanlikKullanici);
                     mcon.startActivity(intent);
                 }
             });
@@ -82,15 +92,26 @@ public class KesfetAdapter extends RecyclerView.Adapter<KesfetAdapter.MyViewHold
         public void setData(ModelAliskanlik selectedProduct, int position) {
             this.aliskanlikEtiket.setText(selectedProduct.getAliskanlikEtiket());
             this.aliskanlikSeviye.setRating(selectedProduct.getAliskanlikSeviye());
+            profilResminiYukle(this.ivProfile,selectedProduct.getAliskanlikKullaniciId());
         }
 
+        private void profilResminiYukle(View viev, String userId) {
+            final ImageView ivUserProfil = viev.findViewById(R.id.ivProfile);
+            FirebaseHelper.getKullaniciResmi(userId, new FirebaseHelper.IKullaniciResmi() {
+                @Override
+                public void onCallback(String userImage) {
+                    if (!userImage.equals("?"))
+                        Picasso.get().load(Uri.parse(userImage)).into(ivUserProfil);
+                }
+            });
+
+
+        }
 
         @Override
         public void onClick(View v) {
 
-
         }
-
 
     }
 }

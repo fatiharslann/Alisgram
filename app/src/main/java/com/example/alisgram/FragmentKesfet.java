@@ -36,6 +36,10 @@ public class FragmentKesfet extends Fragment {
     ArrayList<ModelAliskanlik> aliskanliklar;
     KesfetAdapter adapter;
 
+    public FragmentKesfet(){
+
+    }
+
     public void kategoriListele(final String kategoriAdi) {
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
