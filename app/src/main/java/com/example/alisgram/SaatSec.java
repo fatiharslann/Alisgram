@@ -36,17 +36,48 @@ public class SaatSec extends DialogFragment implements TimePickerDialog.OnTimeSe
         Button saat_ekle = getActivity().findViewById(R.id.Saat_Ekle);
         if (saat_text_1.getVisibility() == View.INVISIBLE ) {
             saat_text_1.setVisibility(View.VISIBLE);
-            saat_text_1.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+            if(hourOfDay < 10 || minute < 10){
+                if(hourOfDay < 10){
+                    saat_text_1.setText("0"+String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+                }
+                if(minute < 10){
+                    saat_text_1.setText(String.valueOf(hourOfDay) + ":"+"0"+String.valueOf(minute));
+                }
+                if(hourOfDay <10 && minute < 10){
+                    saat_text_1.setText("0"+String.valueOf(hourOfDay) + ":"+"0"+String.valueOf(minute));
+                }
+
+            }
 
         }
         else if ( saat_text_2.getVisibility() == View.INVISIBLE && saat_text_1.getVisibility()==View.VISIBLE){
+            if(hourOfDay < 10 || minute <10 ){
+                if(hourOfDay < 10){
+                    saat_text_2.setText("0"+String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+                }
+                if(minute < 10){
+                    saat_text_2.setText(String.valueOf(hourOfDay) + ":"+"0"+String.valueOf(minute));
+                }
+                if(hourOfDay <10 && minute < 10){
+                    saat_text_2.setText("0"+String.valueOf(hourOfDay) + ":"+"0"+String.valueOf(minute));
+                }
+            }
             saat_text_2.setVisibility(View.VISIBLE);
-            saat_text_2.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
             saat_ekle.setX(800);
         }
         else if(saat_text_3.getVisibility()==View.INVISIBLE && saat_text_1.getVisibility()==View.VISIBLE && saat_text_2.getVisibility()==View.VISIBLE){
+            if(hourOfDay < 10 || minute <10 ){
+                if(hourOfDay < 10){
+                    saat_text_3.setText("0"+String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
+                }
+                if(minute < 10){
+                    saat_text_3.setText(String.valueOf(hourOfDay) + ":"+"0"+String.valueOf(minute));
+                }
+                if(hourOfDay <10 && minute < 10){
+                    saat_text_3.setText("0"+String.valueOf(hourOfDay) + ":"+"0"+String.valueOf(minute));
+                }
+            }
             saat_text_3.setVisibility(View.VISIBLE);
-            saat_text_3.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
             saat_ekle.setClickable(false);
             saat_ekle.setVisibility(View.INVISIBLE);
         }

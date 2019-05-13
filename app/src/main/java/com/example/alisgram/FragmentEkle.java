@@ -1,11 +1,11 @@
 package com.example.alisgram;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationManagerCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +18,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,9 +35,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+
 
 public class FragmentEkle extends Fragment {
+    private NotificationManagerCompat notificationManagerCompat;
+
     private MaterialSpinner Kategori_spinner, Alt_Kategori_spinner;
     private MaterialEditText Detay_edit, Etiket_edit;
     private Button Saat_Ekle,btn_kaydet,pazartesi,sali,carsamba,persembe,cuma,cumartesi,pazar;
@@ -62,6 +66,7 @@ public class FragmentEkle extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_fragment_ekle, container, false);
+        notificationManagerCompat = NotificationManagerCompat.from(view.getContext());
         tanimla();
         kategoriGetir();
         return view;
@@ -75,8 +80,6 @@ public class FragmentEkle extends Fragment {
         Date currentTime = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         tarih = df.format(currentTime);
-
-        Log.d("TAGIM",tarih);
         //-------------------------------------------------------------- User
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
@@ -250,8 +253,8 @@ public class FragmentEkle extends Fragment {
             }
         });
 
-
     }
+
 
     private void getir(){
 
@@ -275,7 +278,14 @@ public class FragmentEkle extends Fragment {
             aliskanlik.setAliskanlikSeviye(0);
             aliskanlik.setAlislanlikOnHatirlatici(hatirlatici);
 
-            mDatabaseReference.child(key).setValue(aliskanlik);
+            mDatabaseReference.child(key).setValue(aliskanlik).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    /*Intent profil = new Intent(getContext(),FragmentProfil.class);
+                    startActivity(profil);//*/
+                    Toast.makeText(getContext(), "Alışkanlık Ekleme Başarılı", Toast.LENGTH_SHORT).show();
+                }
+            });
 
             list_saat.clear();
             list_gun.clear();

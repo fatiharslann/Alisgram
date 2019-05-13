@@ -4,17 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="0dp"
-    android:orientation="vertical"
-    tools:context=".FragmentProfil">
-
+    tools:context=".ProfilBaska"
+    android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary">
 
         <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/ivProfile"
+            android:id="@+id/profil_baskasi_img"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_alignParentTop="true"
@@ -29,7 +27,7 @@
             android:id="@+id/profil_baskasi_isim"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ivProfile"
+            android:layout_below="@+id/profil_baskasi_img"
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text="Fatih ARSLAN"
@@ -37,7 +35,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tvDescription"
+            android:id="@+id/profil_baskasi_bio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/profil_baskasi_isim"
@@ -48,22 +46,18 @@
             android:textSize="15sp"
             android:textStyle="italic" />
 
-        <Button
-            android:id="@+id/bt_cikis"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/logout"/>
-
-        <Button
-            android:id="@+id/bt_guncelleme"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="0dp"
-            android:layout_marginRight="3dp"
-            android:background="@drawable/update" />
+        <ImageView
+            android:id="@+id/star_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/ic_star_yellow_72dp"
+            android:onClick="btn_takip"/>
 
     </RelativeLayout>
 
@@ -74,11 +68,11 @@
         android:background="@color/colorPrimary">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/aliskanliklar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="ALIŞKANLIKLARIM"
+            android:text="ALIŞKANLIKLAR"
             android:textSize="18sp"
             android:textStyle="bold"
             android:typeface="sans"
@@ -97,7 +91,7 @@
 
 
             <android.support.design.widget.TabLayout
-                android:id="@+id/tabs"
+                android:id="@+id/profil_tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabGravity="fill"
@@ -111,10 +105,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
+            android:id="@+id/profil_baska_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </RelativeLayout>
+
 </LinearLayout>

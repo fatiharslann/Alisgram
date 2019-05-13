@@ -23,6 +23,22 @@ public class FirebaseHelper {
         void onCallback(String userImage);
     }
 
+    public static void takipEt(String from,String to){
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Takip");
+
+        String key = myRef.push().getKey();
+        Takip takip = new Takip();
+        takip.setFrom(from);
+        takip.setTo(to);
+        takip.setTakip_id(key);
+
+        myRef.child(key).setValue(takip);
+
+    }
+
+
     private static FirebaseUser getCurrentUser() {
         return FirebaseAuth.getInstance().getCurrentUser();
     }
