@@ -49,15 +49,18 @@ public class AnasayfaPopupActivity extends AppCompatActivity {
         }
         aliskanlikId = extras.getString("aliskanlikId");
         final String aliskanlikAdi = extras.getString("aliskanlikAdi");
+        final String aliskanlikDetay = extras.getString("aliskanlikDetay");
         String aliskanlikKullanici = extras.getString("aliskanlikKullanici");
         float aliskanlikSeviye = extras.getFloat("aliskanlikSeviye");
 
         TextView txtAliskanlikAdi = findViewById(R.id.anasayfaPopupAliskanlikAdi);
         TextView txtAliskanlikKullanici = findViewById(R.id.anasayfaPopupKullaniciAdi);
+        TextView txtAliskanlikDetay = findViewById(R.id.anasayfaPopupAliskanlikDetay);
         RatingBar rtSeviye = findViewById(R.id.anasayfaPopupRatingBar);
 
         txtAliskanlikAdi.setText(aliskanlikAdi);
         txtAliskanlikKullanici.setText(aliskanlikKullanici);
+        txtAliskanlikDetay.setText(aliskanlikDetay);
         rtSeviye.setRating(aliskanlikSeviye);
 
         DisplayMetrics dm = new DisplayMetrics();
@@ -66,7 +69,7 @@ public class AnasayfaPopupActivity extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int)(width*.9),(int)(height*.4));
+        getWindow().setLayout((int)(width*.9),(int)(height*.32));
 
         btnEkle.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -12,4 +12,5 @@
     <color name="mainAccent">#b2dfdb</color>
     <color name="background_deneme">#F98820</color>
     <color name="red">#D3B7B5</color>
+    <color name="background_popup">#57606f</color>
 </resources>

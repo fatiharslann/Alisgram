@@ -1,4 +1,5 @@
 package com.example.alisgram;
+
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -14,12 +15,14 @@ import java.util.ArrayList;
 public class KesfetAdapter extends RecyclerView.Adapter<KesfetAdapter.MyViewHolder> {
 
     ArrayList<ModelAliskanlik> mAliskanlikList;
+    ArrayList<ModelKullanici> mKullaniciList;
     LayoutInflater inflater;
     private Context mcon;
 
-    public KesfetAdapter(Context context, ArrayList<ModelAliskanlik> aliskanliklar) {
+    public KesfetAdapter(Context context, ArrayList<ModelAliskanlik> aliskanliklar, ArrayList<ModelKullanici> kullanicilar) {
         inflater = LayoutInflater.from(context);
         this.mAliskanlikList = aliskanliklar;
+        this.mKullaniciList = kullanicilar;
         mcon = context;
     }
 
@@ -46,13 +49,18 @@ public class KesfetAdapter extends RecyclerView.Adapter<KesfetAdapter.MyViewHold
 
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        TextView aliskanlikKullaniciAdi;
         TextView aliskanlikEtiket;
+        TextView aliskanlikDetay;
         RatingBar aliskanlikSeviye;
+        String kullaniciAdi = null;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             aliskanlikEtiket = (TextView) itemView.findViewById(R.id.kesfetAliskanlikAdi);
+            aliskanlikDetay = (TextView) itemView.findViewById(R.id.kesfetAliskanlikDetay);
             aliskanlikSeviye = (RatingBar) itemView.findViewById(R.id.kesfetRatingBar);
+            aliskanlikKullaniciAdi = (TextView) itemView.findViewById(R.id.kesfetKullaniciAdi);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -60,22 +68,38 @@ public class KesfetAdapter extends RecyclerView.Adapter<KesfetAdapter.MyViewHold
                     ModelAliskanlik paliskanlik = mAliskanlikList.get(getAdapterPosition());
                     String aliskanlikId = paliskanlik.getAliskanlikId();
                     String aliskanlikAdi = paliskanlik.getAliskanlikEtiket();
+                    String aliskanlikDetay = paliskanlik.getAliskanlikDetay();
                     String aliskanlikKullanici = paliskanlik.getAliskanlikKullaniciId();
                     float paliskanlikSeviye = paliskanlik.getAliskanlikSeviye();
 
                     Intent intent = new Intent(mcon, AnasayfaPopupActivity.class);
-                    intent.putExtra("aliskanlikId",aliskanlikId);
-                    intent.putExtra("aliskanlikAdi",aliskanlikAdi);
-                    intent.putExtra("aliskanlikSeviye",paliskanlikSeviye);
-                    intent.putExtra("aliskanlikKullanici",aliskanlikKullanici);
+                    intent.putExtra("aliskanlikId", aliskanlikId);
+                    intent.putExtra("aliskanlikAdi", aliskanlikAdi);
+                    intent.putExtra("aliskanlikDetay", aliskanlikDetay);
+                    intent.putExtra("aliskanlikSeviye", paliskanlikSeviye);
+                    intent.putExtra("aliskanlikKullanici", kullaniciAdi);
                     mcon.startActivity(intent);
                 }
             });
         }
 
         public void setData(ModelAliskanlik selectedProduct, int position) {
+
+            String aliskanlikKullaniciId = selectedProduct.getAliskanlikKullaniciId();
+
+            for (int i = 0; i < mKullaniciList.size(); i++) {
+                String uuid = mKullaniciList.get(i).getUuid();
+                if (aliskanlikKullaniciId.equals(uuid)) {
+                    kullaniciAdi = mKullaniciList.get(i).getIsim() + " " + mKullaniciList.get(i).getSoyisim();
+                    break;
+                }
+            }
+
+            this.aliskanlikKullaniciAdi.setText(kullaniciAdi);
             this.aliskanlikEtiket.setText(selectedProduct.getAliskanlikEtiket());
+            this.aliskanlikDetay.setText(selectedProduct.getAliskanlikDetay());
             this.aliskanlikSeviye.setRating(selectedProduct.getAliskanlikSeviye());
+
         }
 
 
