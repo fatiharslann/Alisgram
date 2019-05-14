@@ -19,8 +19,8 @@ public class FirebaseHelper {
         void onCallback(ModelKullanici value);
     }
 
-    public interface IKullaniciResmi {
-        void onCallback(String userImage);
+    public interface IKullaniciBilgisi {
+        void onCallback(ModelKullanici userInfo);
     }
 
     public static void takipEt(String from,String to){
@@ -155,7 +155,7 @@ public class FirebaseHelper {
             return true;
     }
 
-    public static void getKullaniciResmi(String userId, final IKullaniciResmi callback) {
+    public static void getKullaniciBilgisi(String userId, final IKullaniciBilgisi callback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         DatabaseReference ref = database.getReference("Kullanicilar/" + userId);
@@ -166,7 +166,7 @@ public class FirebaseHelper {
 
                 kullanici = dataSnapshot.getValue(ModelKullanici.class);
 
-                callback.onCallback(kullanici.getProfilUri());
+                callback.onCallback(kullanici);
 
             }
 

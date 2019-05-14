@@ -25,11 +25,11 @@ public class ProfilBaska extends AppCompatActivity {
     private FirebaseDatabase mDatabase;
     private DatabaseReference myRef;
     private CircleImageView image;
-    private TextView profil_baskasi_isim,profil_baskasi_bio;
+    private TextView profil_baskasi_isim, profil_baskasi_bio;
     private ViewPager profil_baska_view;
     private TabLayout profil_tabs;
     private ImageView star;
-    public static  String deneme;
+    public static String deneme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,10 @@ public class ProfilBaska extends AppCompatActivity {
         myRef = mDatabase.getReference("Kullanicilar");
         myRef.keepSynced(true);
         //component
-        image = findViewById(R.id.profil_baskasi_img);
+        image = findViewById(R.id.ivProfile);
+
+        Constants.profilResminiYukle(image, key);
+
         profil_baskasi_bio = findViewById(R.id.profil_baskasi_bio);
         profil_baskasi_isim = findViewById(R.id.profil_baskasi_isim);
 
@@ -61,7 +64,7 @@ public class ProfilBaska extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ModelKullanici kullanici = dataSnapshot.getValue(ModelKullanici.class);
-                profil_baskasi_isim.setText(kullanici.getIsim()+ " "+ kullanici.getSoyisim());
+                profil_baskasi_isim.setText(kullanici.getIsim() + " " + kullanici.getSoyisim());
                 profil_baskasi_bio.setText(kullanici.getEmail());
             }
 
@@ -78,10 +81,10 @@ public class ProfilBaska extends AppCompatActivity {
     }
 
     public void btn_takip(View view) {
-        String uid =  FirebaseHelper.getCurrentKullanici().getUuid();
-        Log.d("TAGIM",uid+" "+key);
+        String uid = FirebaseHelper.getCurrentKullanici().getUuid();
+        Log.d("TAGIM", uid + " " + key);
 
-        FirebaseHelper.takipEt(uid,key);
+        FirebaseHelper.takipEt(uid, key);
         Toast.makeText(this, "Takip Başarılı!", Toast.LENGTH_SHORT).show();
 
     }

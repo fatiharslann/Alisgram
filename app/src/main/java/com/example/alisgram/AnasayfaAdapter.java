@@ -2,6 +2,7 @@ package com.example.alisgram;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -20,8 +22,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class AnasayfaAdapter extends RecyclerView.Adapter<AnasayfaAdapter.MyViewHolder> {
@@ -66,12 +71,15 @@ public class AnasayfaAdapter extends RecyclerView.Adapter<AnasayfaAdapter.MyView
         RatingBar aliskanlikSeviye;
         String kullaniciAdi = null;
 
+        CircleImageView ivProfile;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             aliskanlikEtiket = (TextView) itemView.findViewById(R.id.anasayfaAliskanlikAdi);
             aliskanlikSeviye = (RatingBar) itemView.findViewById(R.id.anasayfaRatingBar);
             aliskanlikKullaniciAdi = (TextView) itemView.findViewById(R.id.anasayfaKullaniciAdi);
             aliskanlikDetay = (TextView) itemView.findViewById(R.id.anasayfaAliskanlikDetay);
+            ivProfile = itemView.findViewById(R.id.ivProfile);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -88,7 +96,8 @@ public class AnasayfaAdapter extends RecyclerView.Adapter<AnasayfaAdapter.MyView
                     intent.putExtra("aliskanlikAdi", aliskanlikAdi);
                     intent.putExtra("aliskanlikDetay", aliskanlikDetay);
                     intent.putExtra("aliskanlikSeviye", paliskanlikSeviye);
-                    intent.putExtra("aliskanlikKullanici", kullaniciAdi);
+                    intent.putExtra("aliskanlikKullanici", aliskanlikKullanici);
+                    intent.putExtra("aliskanlikKullaniciAdi", kullaniciAdi);
                     mcon.startActivity(intent);
 
                 }
@@ -112,16 +121,11 @@ public class AnasayfaAdapter extends RecyclerView.Adapter<AnasayfaAdapter.MyView
             this.aliskanlikDetay.setText(selectedProduct.getAliskanlikDetay());
             this.aliskanlikSeviye.setRating(selectedProduct.getAliskanlikSeviye());
 
-
+            Constants.profilResminiYukle(this.ivProfile,selectedProduct.getAliskanlikKullaniciId());
         }
-
 
         @Override
         public void onClick(View v) {
-
-
         }
-
-
     }
 }

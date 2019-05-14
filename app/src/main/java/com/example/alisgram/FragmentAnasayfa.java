@@ -61,6 +61,7 @@ public class FragmentAnasayfa extends Fragment {
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                aliskanliklar.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.child("aliskanliklar").getChildren()) {
                     ModelAliskanlik aliskanlik = postSnapshot.getValue(ModelAliskanlik.class);
                     String aKullaniciId = aliskanlik.getAliskanlikKullaniciId();

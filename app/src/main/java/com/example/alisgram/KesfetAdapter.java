@@ -21,12 +21,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class KesfetAdapter extends RecyclerView.Adapter<KesfetAdapter.MyViewHolder> {
 
     ArrayList<ModelAliskanlik> mAliskanlikList;
+    ArrayList<ModelKullanici> mKullaniciList;
     LayoutInflater inflater;
     private Context mcon;
 
-    public KesfetAdapter(Context context, ArrayList<ModelAliskanlik> aliskanliklar) {
+    public KesfetAdapter(Context context, ArrayList<ModelAliskanlik> aliskanliklar, ArrayList<ModelKullanici> kullanicilar) {
         inflater = LayoutInflater.from(context);
         this.mAliskanlikList = aliskanliklar;
+        this.mKullaniciList = kullanicilar;
         mcon = context;
     }
 
@@ -59,15 +61,18 @@ public class KesfetAdapter extends RecyclerView.Adapter<KesfetAdapter.MyViewHold
 
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView aliskanlikEtiket;
+        TextView aliskanlikEtiket, kesfetKullaniciAdi, aliskanlikDetay;
         RatingBar aliskanlikSeviye;
+        String kullaniciAdi = null;
         CircleImageView ivProfile;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             aliskanlikEtiket = itemView.findViewById(R.id.kesfetAliskanlikAdi);
+            aliskanlikDetay = itemView.findViewById(R.id.kesfetAliskanlikDetay);
             aliskanlikSeviye = itemView.findViewById(R.id.kesfetRatingBar);
             ivProfile = itemView.findViewById(R.id.ivProfile);
+            kesfetKullaniciAdi = itemView.findViewById(R.id.kesfetKullaniciAdi);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -76,36 +81,39 @@ public class KesfetAdapter extends RecyclerView.Adapter<KesfetAdapter.MyViewHold
                     ModelAliskanlik paliskanlik = mAliskanlikList.get(getAdapterPosition());
                     String aliskanlikId = paliskanlik.getAliskanlikId();
                     String aliskanlikAdi = paliskanlik.getAliskanlikEtiket();
+                    String aliskanlikDetay = paliskanlik.getAliskanlikDetay();
                     String aliskanlikKullanici = paliskanlik.getAliskanlikKullaniciId();
                     float paliskanlikSeviye = paliskanlik.getAliskanlikSeviye();
 
                     Intent intent = new Intent(mcon, AnasayfaPopupActivity.class);
                     intent.putExtra("aliskanlikId", aliskanlikId);
                     intent.putExtra("aliskanlikAdi", aliskanlikAdi);
+                    intent.putExtra("aliskanlikDetay", aliskanlikDetay);
                     intent.putExtra("aliskanlikSeviye", paliskanlikSeviye);
                     intent.putExtra("aliskanlikKullanici", aliskanlikKullanici);
+                    intent.putExtra("aliskanlikKullaniciAdi", kullaniciAdi);
                     mcon.startActivity(intent);
                 }
             });
         }
 
         public void setData(ModelAliskanlik selectedProduct, int position) {
-            this.aliskanlikEtiket.setText(selectedProduct.getAliskanlikEtiket());
-            this.aliskanlikSeviye.setRating(selectedProduct.getAliskanlikSeviye());
-            profilResminiYukle(this.ivProfile,selectedProduct.getAliskanlikKullaniciId());
-        }
 
-        private void profilResminiYukle(View viev, String userId) {
-            final ImageView ivUserProfil = viev.findViewById(R.id.ivProfile);
-            FirebaseHelper.getKullaniciResmi(userId, new FirebaseHelper.IKullaniciResmi() {
-                @Override
-                public void onCallback(String userImage) {
-                    if (!userImage.equals("?"))
-                        Picasso.get().load(Uri.parse(userImage)).into(ivUserProfil);
+            String aliskanlikKullaniciId = selectedProduct.getAliskanlikKullaniciId();
+
+            for (int i = 0; i < mKullaniciList.size(); i++) {
+                String uuid = mKullaniciList.get(i).getUuid();
+                if (aliskanlikKullaniciId.equals(uuid)) {
+                    kullaniciAdi = mKullaniciList.get(i).getIsim() + " " + mKullaniciList.get(i).getSoyisim();
+                    break;
                 }
-            });
+            }
+            kesfetKullaniciAdi.setText(kullaniciAdi);
 
-
+            this.aliskanlikEtiket.setText(selectedProduct.getAliskanlikEtiket());
+            this.aliskanlikDetay.setText(selectedProduct.getAliskanlikDetay());
+            this.aliskanlikSeviye.setRating(selectedProduct.getAliskanlikSeviye());
+            Constants.profilResminiYukle(this.ivProfile, selectedProduct.getAliskanlikKullaniciId());
         }
 
         @Override

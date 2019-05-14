@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,11 +34,14 @@ public class FragmentKesfet extends Fragment {
     LinearLayout dbLLayout;
     private Button kategoriButon, seninicin;
     private ModelKategori kategori;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mCurrentUser;
 
     ArrayList<ModelAliskanlik> aliskanliklar;
+    ArrayList<ModelKullanici> kullanicilar;
     KesfetAdapter adapter;
 
-    public FragmentKesfet(){
+    public FragmentKesfet() {
 
     }
 
@@ -47,15 +52,22 @@ public class FragmentKesfet extends Fragment {
 
                 aliskanliklar.clear();
 
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                for (DataSnapshot postSnapshot : dataSnapshot.child("aliskanliklar").getChildren()) {
                     ModelAliskanlik aliskanlik = postSnapshot.getValue(ModelAliskanlik.class);
-                    if (kategoriAdi.equals(aliskanlik.getAliskanlikKategori())) {
-                        aliskanliklar.add(aliskanlik);
-                        adapter.notifyDataSetChanged();
-                    } else if (kategoriAdi.equals("seninicin")) {
-                        aliskanliklar.add(aliskanlik);
-                        adapter.notifyDataSetChanged();
+                    if (!aliskanlik.getAliskanlikKullaniciId().equals(mCurrentUser.getUid())) {
+                        if (kategoriAdi.equals(aliskanlik.getAliskanlikKategori())) {
+                            aliskanliklar.add(aliskanlik);
+                            adapter.notifyDataSetChanged();
+                        } else if (kategoriAdi.equals("seninicin")) {
+                            aliskanliklar.add(aliskanlik);
+                            adapter.notifyDataSetChanged();
+                        }
                     }
+                }
+
+                for (DataSnapshot postSnapshot : dataSnapshot.child("Kullanicilar").getChildren()) {
+                    ModelKullanici kullanici = postSnapshot.getValue(ModelKullanici.class);
+                    kullanicilar.add(kullanici);
                 }
 
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
@@ -81,12 +93,16 @@ public class FragmentKesfet extends Fragment {
         dbLLayout = view.findViewById(R.id.dbLLayout);
         lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("aliskanliklar");
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         recyclerView = view.findViewById(R.id.kesfetItemList);
 
+        mAuth = FirebaseAuth.getInstance();
+        mCurrentUser = mAuth.getCurrentUser();
+
+        kullanicilar = new ArrayList<ModelKullanici>();
         aliskanliklar = new ArrayList<ModelAliskanlik>();
         kategoriListele("seninicin");
-        adapter = new KesfetAdapter(getContext(), aliskanliklar);
+        adapter = new KesfetAdapter(getContext(), aliskanliklar, kullanicilar);
         recyclerView.setAdapter(adapter);
 
         seninicin = view.findViewById(R.id.seninicin);
