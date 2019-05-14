@@ -34,7 +34,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.google.firebase:firebase-database:16.1.0'
+    implementation "com.android.support:support-compat:28.0.0"
     implementation 'com.yarolegovich:lovely-dialog:1.1.0'
+    implementation 'com.github.halysongoncalves:pugnotification:1.8.1'
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
 }
 apply plugin: 'com.google.gms.google-services'

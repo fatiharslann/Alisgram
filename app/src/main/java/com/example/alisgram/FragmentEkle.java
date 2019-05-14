@@ -1,12 +1,12 @@
 package com.example.alisgram;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationManagerCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +19,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,16 +36,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+
 
 public class FragmentEkle extends Fragment {
+    private NotificationManagerCompat notificationManagerCompat;
+
     private MaterialSpinner Kategori_spinner, Alt_Kategori_spinner;
     private MaterialEditText Detay_edit, Etiket_edit;
     private Button Saat_Ekle,btn_kaydet,pazartesi,sali,carsamba,persembe,cuma,cumartesi,pazar;
     private TextView saat_text_1,saat_text_2,saat_text_3;
     private View view;
     private Switch hatirlatici_switch,gizlilik_switch;
-    private ArrayList<String> list_gun,list_saat,listKategori,listAltKategori;
+    private ArrayList<String> list_gun,list_saat,listKategori=new ArrayList<String>(),listAltKategori=new ArrayList<String>();
+    private ArrayList<Integer> listKategoriId=new ArrayList<Integer>(),listAltKategoriId=new ArrayList<Integer>();
     private EditText hatirlatici_text;
 
     private FirebaseDatabase mDatabase;
@@ -63,6 +68,7 @@ public class FragmentEkle extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_fragment_ekle, container, false);
+        notificationManagerCompat = NotificationManagerCompat.from(view.getContext());
         tanimla();
         kategoriGetir();
         return view;
@@ -76,8 +82,6 @@ public class FragmentEkle extends Fragment {
         Date currentTime = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         tarih = df.format(currentTime);
-
-        Log.d("TAGIM",tarih);
         //-------------------------------------------------------------- User
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
@@ -265,8 +269,8 @@ public class FragmentEkle extends Fragment {
             }
         });
 
-
     }
+
 
     private void getir(){
 
@@ -290,7 +294,14 @@ public class FragmentEkle extends Fragment {
             aliskanlik.setAliskanlikSeviye(0);
             aliskanlik.setAlislanlikOnHatirlatici(hatirlatici);
 
-            mDatabaseReference.child(key).setValue(aliskanlik);
+            mDatabaseReference.child(key).setValue(aliskanlik).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    /*Intent profil = new Intent(getContext(),FragmentProfil.class);
+                    startActivity(profil);//*/
+                    Toast.makeText(getContext(), "Alışkanlık Ekleme Başarılı", Toast.LENGTH_SHORT).show();
+                }
+            });
 
             list_saat.clear();
             list_gun.clear();
@@ -316,15 +327,15 @@ public class FragmentEkle extends Fragment {
         kDatabaseReference = mDatabase.getReference("kategoriler");
         Query query = kDatabaseReference.orderByChild("ustKategoriAdi").equalTo("Yok");
 
-        listKategori = new ArrayList<String>();
-
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 listKategori.clear();
+                listKategoriId.clear();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    String kategoriAdi=postSnapshot.child("kategoriAdi").getValue(String.class);
-                    listKategori.add(kategoriAdi);
+                    ModelKategori kategori = postSnapshot.getValue(ModelKategori.class);
+                    listKategori.add(kategori.getKategoriAdi());
+                    listKategoriId.add(kategori.getKategoriId());
                     Kategori_spinner.setItems(listKategori);
                 }
             }
@@ -337,27 +348,28 @@ public class FragmentEkle extends Fragment {
         Kategori_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                kategori_adi=item;
-                altKategoriGetir();
+                kategori_adi=listKategoriId.get(position).toString();
+                altKategoriGetir(listKategori.get(position));
             }
         });
 
     }
 
 
-    private void altKategoriGetir(){
+    private void altKategoriGetir(String ustKategoriId){
 
-        listAltKategori = new ArrayList<String>();
         Alt_Kategori_spinner = (MaterialSpinner) view.findViewById(R.id.Alt_Kategori_spinner);
 
-        Query queryy = kDatabaseReference.orderByChild("ustKategoriAdi").equalTo(kategori_adi);
+        Query queryy = kDatabaseReference.orderByChild("ustKategoriAdi").equalTo(ustKategoriId);
         queryy.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 listAltKategori.clear();
+                listAltKategoriId.clear();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    String AltKategoriAdi=postSnapshot.child("kategoriAdi").getValue(String.class);
-                    listAltKategori.add(AltKategoriAdi);
+                    ModelKategori kategori = postSnapshot.getValue(ModelKategori.class);
+                    listAltKategori.add(kategori.getKategoriAdi());
+                    listAltKategoriId.add(kategori.getKategoriId());
                     Alt_Kategori_spinner.setItems(listAltKategori);
                 }
             }
@@ -371,7 +383,7 @@ public class FragmentEkle extends Fragment {
         Alt_Kategori_spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                alt_kategori_adi=item;
+                alt_kategori_adi = listAltKategoriId.get(position).toString();
             }
         });
     }

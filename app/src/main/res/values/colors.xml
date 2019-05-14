@@ -16,4 +16,5 @@
     <color name="profil">#62c7ff</color>
     <color name="gray">#b9c5cc</color>
     <color name="button">#dcdced</color>
+    <color name="background_popup">#57606f</color>
 </resources>

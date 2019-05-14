@@ -1,7 +1,6 @@
 package com.example.alisgram;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ModelAliskanlik {
     private String AliskanlikId;
@@ -34,9 +33,7 @@ public class ModelAliskanlik {
         AliskanlikDurum = aliskanlikDurum;
     }
 
-    public ModelAliskanlik(){
-
-    }
+    public ModelAliskanlik(){}
 
     public int getAliskanlikDurum() {
         return AliskanlikDurum;
@@ -85,7 +82,6 @@ public class ModelAliskanlik {
     public void setAliskanlikKategori(String aliskanlikKategori) {
         AliskanlikKategori = aliskanlikKategori;
     }
-
     public String getAliskanlikAltKategori() {
         return AliskanlikAltKategori;
     }

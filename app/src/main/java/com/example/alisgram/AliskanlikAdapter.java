@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.yarolegovich.lovelydialog.LovelyProgressDialog;
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 import com.yarolegovich.lovelydialog.LovelyTextInputDialog;
 
@@ -30,14 +29,15 @@ public class AliskanlikAdapter extends RecyclerView.Adapter<AliskanlikAdapter.My
     private LayoutInflater inflater;
     private DatabaseReference mDatabase;
     private Context context;
-    private FragmentManager manager;
+    private int state;
 
-    public AliskanlikAdapter(Context context, ArrayList<ModelAliskanlik> aliskanliklar, FragmentManager manager) {
+    public AliskanlikAdapter(Context context, ArrayList<ModelAliskanlik> aliskanliklar, FragmentManager manager,int state) {
         this.context = context;
         inflater = LayoutInflater.from(context);
         this.mAliskanlikList = aliskanliklar;
         this.manager=manager;
         mDatabase = FirebaseDatabase.getInstance().getReference("aliskanliklar");
+        this.state = state;
     }
 
 
@@ -73,6 +73,8 @@ public class AliskanlikAdapter extends RecyclerView.Adapter<AliskanlikAdapter.My
             deleteAliskanlik = (ImageView) itemView.findViewById(R.id.deleteAliskanlik);
             editAliskanlik = (ImageView) itemView.findViewById(R.id.editAliskanlik);
             gizlilikAliskanlik = (ImageView) itemView.findViewById(R.id.gizlilikAliskanlik);
+            if(state == 0){
+
 
             gizlilikAliskanlik.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -110,15 +112,22 @@ public class AliskanlikAdapter extends RecyclerView.Adapter<AliskanlikAdapter.My
                 }
             });
 
-            editAliskanlik.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String aliskanlikId = mAliskanlikList.get(getAdapterPosition()).getAliskanlikId();
-                    Intent intent = new Intent(context, ProfilAliskanlikGuncelle.class);
-                    intent.putExtra("aliskanlikId",aliskanlikId);
-                    context.startActivity(intent);
-                }
-            });
+                editAliskanlik.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String aliskanlikId = mAliskanlikList.get(getAdapterPosition()).getAliskanlikId();
+                        Intent intent = new Intent(context, ProfilAliskanlikGuncelle.class);
+                        intent.putExtra("aliskanlikId",aliskanlikId);
+                        context.startActivity(intent);
+                    }
+                });
+            }else {
+                deleteAliskanlik.setVisibility(View.INVISIBLE);
+                editAliskanlik.setVisibility(View.INVISIBLE);
+                gizlilikAliskanlik.setVisibility(View.INVISIBLE);
+            }
+
+
         }
 
         public void setData(ModelAliskanlik selectedProduct, int position) {

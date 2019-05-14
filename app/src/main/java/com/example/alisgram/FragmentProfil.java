@@ -36,7 +36,7 @@ public class FragmentProfil extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_fragment_profil, container, false);
 
-        TextView tvName = view.findViewById(R.id.tvName);
+        TextView tvName = view.findViewById(R.id.profil_baskasi_isim);
         TextView tvDescription = view.findViewById(R.id.tvDescription);
         Button bt_cikis = view.findViewById(R.id.bt_cikis);
         Button bt_guncelleme = view.findViewById(R.id.bt_guncelleme);

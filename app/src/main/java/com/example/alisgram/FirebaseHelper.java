@@ -15,14 +15,36 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.Console;
-
 public class FirebaseHelper {
 
     static FirebaseUser user;
     static ModelKullanici kullanici;
     static int temp = 0;
     static boolean result=false;
+
+    public interface MyCallback {
+        void onCallback(ModelKullanici value);
+    }
+
+    public interface IKullaniciBilgisi {
+        void onCallback(ModelKullanici userInfo);
+    }
+
+    public static void takipEt(String from,String to){
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Takip");
+
+        String key = myRef.push().getKey();
+        Takip takip = new Takip();
+        takip.setFrom(from);
+        takip.setTo(to);
+        takip.setTakip_id(key);
+
+        myRef.child(key).setValue(takip);
+
+    }
+
 
     private static FirebaseUser getCurrentUser() {
         return FirebaseAuth.getInstance().getCurrentUser();
@@ -46,19 +68,21 @@ public class FirebaseHelper {
 
         kullanici.setEmail(user.getEmail());
         kullanici.setUuid(user.getUid());
+        String[] displayName = user.getDisplayName().split(" ");
+
+        kullanici.setSoyisim(displayName[displayName.length - 1]);
+        kullanici.setIsim(displayName[0]);
 
         return kullanici;
     }
 
-    public interface MyCallback {
-        void onCallback(ModelKullanici value);
-    }
 
     public static void readData(final MyCallback myCallback) {
         if (isNullUser(user))
             user = getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("Kullanicilar/" + user.getUid());
+
+        DatabaseReference ref = database.getReference("Kullanicilar/" + getCurrentUser().getUid());
 
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -93,7 +117,9 @@ public class FirebaseHelper {
 
         if (!isNullUser(user)) {
             ModelKullanici kullanici = getCurrentKullanici();
+            kullanici.setProfilUri(user.getPhotoUrl().toString());
             kullaniciEkle(kullanici);
+            //Log.d("FirebaseHelper", user.getPhotoUrl().toString());
         }
     }
 
@@ -154,4 +180,26 @@ public class FirebaseHelper {
         return result;
     }
 
+    public static void getKullaniciBilgisi(String userId, final IKullaniciBilgisi callback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        DatabaseReference ref = database.getReference("Kullanicilar/" + userId);
+
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                kullanici = dataSnapshot.getValue(ModelKullanici.class);
+
+                callback.onCallback(kullanici);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        ref.addListenerForSingleValueEvent(postListener);
+    }
 }
