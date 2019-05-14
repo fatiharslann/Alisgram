@@ -13,7 +13,10 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProfilBaska"></activity>
+        <activity
+            android:name=".ProfilBaska"
+            android:parentActivityName=".Profil"/>
+
         <activity
             android:name=".KayitEkrani"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
