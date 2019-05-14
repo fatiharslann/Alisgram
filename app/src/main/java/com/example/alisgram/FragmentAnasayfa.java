@@ -31,6 +31,9 @@ public class FragmentAnasayfa extends Fragment {
     private DatabaseReference mDatabase;
     RecyclerView recyclerView;
     View view;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mCurrentUser;
+    boolean durum;
 
     public FragmentAnasayfa() {
         // Required empty public constructor
@@ -43,18 +46,61 @@ public class FragmentAnasayfa extends Fragment {
         // Inflate the layout for this fragment
 
         view = inflater.inflate(R.layout.fragment_fragment_anasayfa, container, false);
+
         final ArrayList<ModelAliskanlik> aliskanliklar = new ArrayList<ModelAliskanlik>();
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("aliskanliklar");
+        final ArrayList<ModelKullanici> kullanicilar = new ArrayList<ModelKullanici>();
+        final ArrayList<ModelTakip> takipler = new ArrayList<ModelTakip>();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         recyclerView = view.findViewById(R.id.anasayfaItemList);
+
+        mAuth = FirebaseAuth.getInstance();
+        mCurrentUser = mAuth.getCurrentUser();
+        final String aUserId = mCurrentUser.getUid();
 
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                aliskanliklar.clear();
+                for (DataSnapshot postSnapshot : dataSnapshot.child("aliskanliklar").getChildren()) {
                     ModelAliskanlik aliskanlik = postSnapshot.getValue(ModelAliskanlik.class);
-                    aliskanliklar.add(aliskanlik);
+                    String aKullaniciId = aliskanlik.getAliskanlikKullaniciId();
+                    if (!aKullaniciId.equals(aUserId)) {
+                        aliskanliklar.add(aliskanlik);
+                    }
                 }
-                AnasayfaAdapter productAdapter = new AnasayfaAdapter(view.getContext(), aliskanliklar);
+                for (DataSnapshot postSnapshot : dataSnapshot.child("Kullanicilar").getChildren()) {
+                    ModelKullanici kullanici = postSnapshot.getValue(ModelKullanici.class);
+                    kullanicilar.add(kullanici);
+                }
+                for (DataSnapshot postSnapshot : dataSnapshot.child("Takip").getChildren()) {
+                    ModelTakip takip = postSnapshot.getValue(ModelTakip.class);
+                    takipler.add(takip);
+                }
+
+                final ArrayList<ModelAliskanlik> taliskanliklar = new ArrayList<ModelAliskanlik>();
+
+                for (int i = 0; i < aliskanliklar.size(); i++) {
+
+                    durum=false;
+
+                    for (int j = 0; j < takipler.size(); j++) {
+
+                        if (takipler.get(j).getFrom().equals(aUserId)) {
+                            if (aliskanliklar.get(i).getAliskanlikKullaniciId().equals(takipler.get(j).getTo())) {
+                                durum=true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (durum){
+                        taliskanliklar.add(aliskanliklar.get(i));
+                    }
+
+                }
+
+                AnasayfaAdapter productAdapter = new AnasayfaAdapter(view.getContext(), taliskanliklar, kullanicilar);
                 recyclerView.setAdapter(productAdapter);
 
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());

@@ -12,7 +12,7 @@
         android:background="@color/colorPrimary">
 
         <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profil_baskasi_img"
+            android:id="@+id/ivProfile"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_alignParentTop="true"
@@ -27,7 +27,7 @@
             android:id="@+id/profil_baskasi_isim"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/profil_baskasi_img"
+            android:layout_below="@+id/ivProfile"
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text="Fatih ARSLAN"
