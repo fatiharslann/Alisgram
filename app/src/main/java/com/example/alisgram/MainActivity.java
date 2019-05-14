@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.show();
                 signIn();
             }
         });
@@ -121,13 +122,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if(mAuth.getCurrentUser() != null){
             startActivity(new Intent(MainActivity.this,Profil.class));
         }
-
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signIn();
-            }
-        });
     }
 
 
@@ -173,7 +167,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             Toast.makeText(MainActivity.this, "Yetkilendirme hatası.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            toastBasarili();
+                            //toastBasarili();
+                            dialog.dismiss();
                             FirebaseHelper.ekleKullanici();
                             startActivity(new Intent(MainActivity.this, Profil.class));
                             finish();

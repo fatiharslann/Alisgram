@@ -30,6 +30,7 @@ public class AliskanlikAdapter extends RecyclerView.Adapter<AliskanlikAdapter.My
     private DatabaseReference mDatabase;
     private Context context;
     private int state;
+    private FragmentManager manager;
 
     public AliskanlikAdapter(Context context, ArrayList<ModelAliskanlik> aliskanliklar, FragmentManager manager,int state) {
         this.context = context;
@@ -75,42 +76,45 @@ public class AliskanlikAdapter extends RecyclerView.Adapter<AliskanlikAdapter.My
             gizlilikAliskanlik = (ImageView) itemView.findViewById(R.id.gizlilikAliskanlik);
             if(state == 0){
 
+                deleteAliskanlik.setVisibility(View.VISIBLE);
+                editAliskanlik.setVisibility(View.VISIBLE);
+                gizlilikAliskanlik.setVisibility(View.VISIBLE);
 
-            gizlilikAliskanlik.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mAliskanlikList.get(getAdapterPosition()).isAliskanlikGizlilik()){
-                        FirebaseHelper.setAliskanlikGizlilik(mAliskanlikList.get(getAdapterPosition()).getAliskanlikId(),false);
-                        gizlilikAliskanlik.setImageResource(R.drawable.eye1);
+                gizlilikAliskanlik.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mAliskanlikList.get(getAdapterPosition()).isAliskanlikGizlilik()){
+                            FirebaseHelper.setAliskanlikGizlilik(mAliskanlikList.get(getAdapterPosition()).getAliskanlikId(),false);
+                            gizlilikAliskanlik.setImageResource(R.drawable.eye1);
+                        }
+                        else{
+                            FirebaseHelper.setAliskanlikGizlilik(mAliskanlikList.get(getAdapterPosition()).getAliskanlikId(),true);
+                            gizlilikAliskanlik.setImageResource(R.drawable.eye2);
+                        }
                     }
-                    else{
-                        FirebaseHelper.setAliskanlikGizlilik(mAliskanlikList.get(getAdapterPosition()).getAliskanlikId(),true);
-                        gizlilikAliskanlik.setImageResource(R.drawable.eye2);
-                    }
-                }
-            });
+                });
 
-            deleteAliskanlik.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new LovelyStandardDialog(context, LovelyStandardDialog.ButtonLayout.VERTICAL)
-                            .setTopColorRes(R.color.red)
-                            .setButtonsColorRes(R.color.colorBtn)
-                            .setIcon(R.drawable.delete2)
-                            .setTitle("Alışkanlık silinecek!")
-                            .setMessage("Devam etmek istiyor musunuz?")
-                            .setPositiveButton("Tamam", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    String aliskanlikId = mAliskanlikList.get(getAdapterPosition()).getAliskanlikId();
-                                    mDatabase.child(aliskanlikId).setValue(null);
-                                    Toast.makeText(context, "Alışkanlık Silindi", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .setNegativeButton("İptal", null)
-                            .show();
-                }
-            });
+                deleteAliskanlik.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new LovelyStandardDialog(context, LovelyStandardDialog.ButtonLayout.VERTICAL)
+                                .setTopColorRes(R.color.red)
+                                .setButtonsColorRes(R.color.colorBtn)
+                                .setIcon(R.drawable.delete2)
+                                .setTitle("Alışkanlık silinecek!")
+                                .setMessage("Devam etmek istiyor musunuz?")
+                                .setPositiveButton("Tamam", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        String aliskanlikId = mAliskanlikList.get(getAdapterPosition()).getAliskanlikId();
+                                        mDatabase.child(aliskanlikId).setValue(null);
+                                        Toast.makeText(context, "Alışkanlık Silindi", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setNegativeButton("İptal", null)
+                                .show();
+                    }
+                });
 
                 editAliskanlik.setOnClickListener(new View.OnClickListener() {
                     @Override

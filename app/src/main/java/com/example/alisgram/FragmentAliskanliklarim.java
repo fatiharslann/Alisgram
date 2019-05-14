@@ -51,7 +51,7 @@ public class FragmentAliskanliklarim extends Fragment {
                     ModelAliskanlik aliskanlik = postSnapshot.getValue(ModelAliskanlik.class);
                     aliskanliklar.add(aliskanlik);
                 }
-                AliskanlikAdapter productAdapter = new AliskanlikAdapter(view.getContext(), aliskanliklar,getFragmentManager(),1);
+                AliskanlikAdapter productAdapter = new AliskanlikAdapter(view.getContext(), aliskanliklar,getFragmentManager(),0);
                 recyclerView.setAdapter(productAdapter);
 
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
