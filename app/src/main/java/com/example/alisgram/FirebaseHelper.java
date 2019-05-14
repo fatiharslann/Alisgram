@@ -1,7 +1,12 @@
 package com.example.alisgram;
 
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -14,6 +19,8 @@ public class FirebaseHelper {
 
     static FirebaseUser user;
     static ModelKullanici kullanici;
+    static int temp = 0;
+    static boolean result=false;
 
     public interface MyCallback {
         void onCallback(ModelKullanici value);
@@ -71,6 +78,8 @@ public class FirebaseHelper {
 
 
     public static void readData(final MyCallback myCallback) {
+        if (isNullUser(user))
+            user = getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         DatabaseReference ref = database.getReference("Kullanicilar/" + getCurrentUser().getUid());
@@ -91,7 +100,6 @@ public class FirebaseHelper {
             }
         };
         ref.addListenerForSingleValueEvent(postListener);
-
     }
 
 
@@ -153,6 +161,23 @@ public class FirebaseHelper {
             return false;
         else
             return true;
+    }
+
+    public static boolean setAliskanlikGizlilik(String aliskanlikId,boolean deger){
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference ref = database.getReference("aliskanliklar/" + aliskanlikId+"/aliskanlikGizlilik");
+        result=false;
+
+        ref.setValue(deger).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    result=true;
+                }
+            }
+        });
+
+        return result;
     }
 
     public static void getKullaniciBilgisi(String userId, final IKullaniciBilgisi callback) {

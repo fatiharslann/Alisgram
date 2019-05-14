@@ -48,7 +48,7 @@ public class FragmentBaskaAliskanliklar extends Fragment {
                         aliskanliklar.add(aliskanlik);
                     }
                 }
-                AliskanlikAdapter productAdapter = new AliskanlikAdapter(view.getContext(), aliskanliklar,1);
+                AliskanlikAdapter productAdapter = new AliskanlikAdapter(view.getContext(), aliskanliklar,getFragmentManager(),1);
                 recyclerView.setAdapter(productAdapter);
 
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());

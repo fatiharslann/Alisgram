@@ -20,7 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/profilAliskanlikAdi"
@@ -59,24 +60,23 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/eye1"
-                    android:layout_marginBottom="5dp"/>
+                    android:src="@drawable/eye1"/>
 
                 <ImageView
                     android:id="@+id/editAliskanlik"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/edit"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_gravity="center"
+                    android:src="@mipmap/edit"/>
 
                 <ImageView
                     android:id="@+id/deleteAliskanlik"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/delete"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="5dp" />
+                    android:layout_width="15dp"
+                    android:layout_height="18dp"
+                    android:src="@mipmap/delete"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp" />
             </LinearLayout>
         </RelativeLayout>
 

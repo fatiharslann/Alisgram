@@ -2,23 +2,28 @@ package com.example.alisgram;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,6 +37,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import dmax.dialog.SpotsDialog;
+
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private FirebaseAuth mAuth;
@@ -44,11 +51,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = mDatabase.getReference("aliskanliklar");
     private NotificationManagerCompat notificationManagerCompat;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         scheduleAlarm();
 
         String evet = getIntent().getStringExtra("evet");
@@ -80,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }//*/
 
 
-
+        dialog = new SpotsDialog.Builder().setContext(this).setTheme(R.style.Custom).build();
 
         //alt menu kapatma
         View decorView = getWindow().getDecorView();
@@ -104,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.show();
                 signIn();
             }
         });
@@ -112,15 +122,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if(mAuth.getCurrentUser() != null){
             startActivity(new Intent(MainActivity.this,Profil.class));
         }
-
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signIn();
-            }
-        });
-
-
     }
 
 
@@ -166,7 +167,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             Toast.makeText(MainActivity.this, "Yetkilendirme hatası.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            toastBasarili();
+                            //toastBasarili();
+                            dialog.dismiss();
                             FirebaseHelper.ekleKullanici();
                             startActivity(new Intent(MainActivity.this, Profil.class));
                             finish();
@@ -224,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             CustomToast.successful(MainActivity.this);
                             startActivity(new Intent(MainActivity.this, MainActivity.class));
                         } else {
-                          //  Log.e("Giriş Hatası", task.getException().getMessage());
+                            Log.e("Giriş Hatası", task.getException().getMessage());
                             CustomToast.error(MainActivity.this);
                         }
                     }
@@ -233,6 +235,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     public void bt_kayit_click(View view) {
         startActivity(new Intent(MainActivity.this, KayitEkrani.class));
+        finish();
     }
     public void scheduleAlarm() {
         Intent intent = new Intent(getApplicationContext(), BootReceiver.class);

@@ -27,17 +27,13 @@ public class FragmentProfil extends Fragment {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private FragmentActivity myContext;
-    FirebaseAuth auth;
+    private FirebaseAuth auth;
 
-    public FragmentProfil() {
-        // Required empty public constructor
-    }
+    public FragmentProfil() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         view = inflater.inflate(R.layout.fragment_fragment_profil, container, false);
 
         TextView tvName = view.findViewById(R.id.profil_baskasi_isim);
@@ -45,15 +41,14 @@ public class FragmentProfil extends Fragment {
         Button bt_cikis = view.findViewById(R.id.bt_cikis);
         Button bt_guncelleme = view.findViewById(R.id.bt_guncelleme);
 
+
         user = FirebaseAuth.getInstance().getCurrentUser();
-
         auth = FirebaseAuth.getInstance();
-
         FirebaseUser user = auth.getCurrentUser();
+
         Uri resimyolu = user.getPhotoUrl();
         if (resimyolu != null)
             profilResminiYukle(view, resimyolu);
-
 
         bt_cikis.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,15 +72,9 @@ public class FragmentProfil extends Fragment {
         viewPager = view.findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
-        tabLayout = view.findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-
         profilResminiYukle(view, user.getPhotoUrl());
         tvName.setText(user.getDisplayName());
         tvDescription.setText(user.getEmail());
-
-        //openDialog();
-
         return view;
     }
 
@@ -105,9 +94,8 @@ public class FragmentProfil extends Fragment {
         Picasso.get().load(profilResim).into(ivUserProfil);
     }
 
-
     private void openDialog() {
-        final CustomFragmentDialog dialog = new CustomFragmentDialog();
+        CustomFragmentDialog dialog = new CustomFragmentDialog();
         dialog.show(getFragmentManager(), "dialogTag");
     }
 

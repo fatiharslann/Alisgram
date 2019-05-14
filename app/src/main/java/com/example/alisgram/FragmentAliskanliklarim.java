@@ -1,7 +1,11 @@
 package com.example.alisgram;
 
+import android.app.Activity;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -45,11 +49,9 @@ public class FragmentAliskanliklarim extends Fragment {
                 aliskanliklar.clear();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     ModelAliskanlik aliskanlik = postSnapshot.getValue(ModelAliskanlik.class);
-                    if(aliskanlik.getAliskanlikDurum() != 1){
-                        aliskanliklar.add(aliskanlik);
-                    }
+                    aliskanliklar.add(aliskanlik);
                 }
-                AliskanlikAdapter productAdapter = new AliskanlikAdapter(view.getContext(), aliskanliklar,0);
+                AliskanlikAdapter productAdapter = new AliskanlikAdapter(view.getContext(), aliskanliklar,getFragmentManager(),0);
                 recyclerView.setAdapter(productAdapter);
 
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());

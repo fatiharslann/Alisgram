@@ -51,7 +51,7 @@ public class FragmentEdinliklerim extends Fragment {
                     if (aliskanlik.getAliskanlikDurum()==1)
                         aliskanliklar.add(aliskanlik);
                 }
-                AliskanlikAdapter productAdapter = new AliskanlikAdapter(view.getContext(), aliskanliklar,0);
+                AliskanlikAdapter productAdapter = new AliskanlikAdapter(view.getContext(), aliskanliklar,getFragmentManager(),0);
                 recyclerView.setAdapter(productAdapter);
 
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());

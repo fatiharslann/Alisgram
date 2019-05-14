@@ -1,6 +1,11 @@
 package com.example.alisgram;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +17,7 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.yarolegovich.lovelydialog.LovelyStandardDialog;
+import com.yarolegovich.lovelydialog.LovelyTextInputDialog;
 
 import java.util.ArrayList;
 
@@ -24,11 +30,13 @@ public class AliskanlikAdapter extends RecyclerView.Adapter<AliskanlikAdapter.My
     private DatabaseReference mDatabase;
     private Context context;
     private int state;
+    private FragmentManager manager;
 
-    public AliskanlikAdapter(Context context, ArrayList<ModelAliskanlik> aliskanliklar,int state) {
+    public AliskanlikAdapter(Context context, ArrayList<ModelAliskanlik> aliskanliklar, FragmentManager manager,int state) {
         this.context = context;
         inflater = LayoutInflater.from(context);
         this.mAliskanlikList = aliskanliklar;
+        this.manager=manager;
         mDatabase = FirebaseDatabase.getInstance().getReference("aliskanliklar");
         this.state = state;
     }
@@ -68,6 +76,23 @@ public class AliskanlikAdapter extends RecyclerView.Adapter<AliskanlikAdapter.My
             gizlilikAliskanlik = (ImageView) itemView.findViewById(R.id.gizlilikAliskanlik);
             if(state == 0){
 
+                deleteAliskanlik.setVisibility(View.VISIBLE);
+                editAliskanlik.setVisibility(View.VISIBLE);
+                gizlilikAliskanlik.setVisibility(View.VISIBLE);
+
+                gizlilikAliskanlik.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mAliskanlikList.get(getAdapterPosition()).isAliskanlikGizlilik()){
+                            FirebaseHelper.setAliskanlikGizlilik(mAliskanlikList.get(getAdapterPosition()).getAliskanlikId(),false);
+                            gizlilikAliskanlik.setImageResource(R.drawable.eye1);
+                        }
+                        else{
+                            FirebaseHelper.setAliskanlikGizlilik(mAliskanlikList.get(getAdapterPosition()).getAliskanlikId(),true);
+                            gizlilikAliskanlik.setImageResource(R.drawable.eye2);
+                        }
+                    }
+                });
 
                 deleteAliskanlik.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -112,6 +137,10 @@ public class AliskanlikAdapter extends RecyclerView.Adapter<AliskanlikAdapter.My
         public void setData(ModelAliskanlik selectedProduct, int position) {
             this.aliskanlikEtiket.setText(selectedProduct.getAliskanlikEtiket());
             this.aliskanlikAciklama.setText(selectedProduct.getAliskanlikDetay());
+            if (mAliskanlikList.get(position).isAliskanlikGizlilik())
+                this.gizlilikAliskanlik.setImageResource(R.drawable.eye2);
+            else
+                this.gizlilikAliskanlik.setImageResource(R.drawable.eye1);
         }
 
 

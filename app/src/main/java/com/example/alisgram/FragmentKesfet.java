@@ -1,9 +1,11 @@
 package com.example.alisgram;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -26,6 +28,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class FragmentKesfet extends Fragment {
 
@@ -234,8 +238,10 @@ public class FragmentKesfet extends Fragment {
                         kategoriButon.setId(kategori.getKategoriId());
                         kategoriButon.setText(kategori.getKategoriAdi());
                         final int kategoriAdi = kategori.getKategoriId();
-                        Drawable top = getResources().getDrawable(R.drawable.search);
-                        kategoriButon.setCompoundDrawablesWithIntrinsicBounds(null, top, null, null);
+                        kategoriButon.setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.kesfet_button));
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+                        params.setMargins(10, 0, 0, 0);                        //Drawable top = getResources().getDrawable(R.drawable.search);
+                        kategoriButon.setLayoutParams(params);
 
                         kategoriButon.setOnClickListener(new View.OnClickListener() {
                             @Override

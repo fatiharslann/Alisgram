@@ -9,9 +9,9 @@
     tools:context=".FragmentProfil">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary">
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:background="@drawable/profilarka">
 
         <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/ivProfile"
@@ -22,7 +22,6 @@
             android:layout_marginTop="10dp"
             android:padding="5dp"
             android:src="@drawable/smile"
-            app:civ_border_color="#FF000000"
             app:civ_border_width="2dp" />
 
         <TextView
@@ -33,6 +32,7 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text="Fatih ARSLAN"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -45,33 +45,38 @@
             android:layout_marginBottom="15dp"
             android:gravity="center"
             android:text="I love Adana Kebap"
+            android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="italic" />
 
         <Button
             android:id="@+id/bt_cikis"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/logout"/>
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="18dp"
+            android:layout_marginBottom="17dp"
+            android:background="@drawable/logout2"
+            android:gravity="bottom"
+            android:paddingRight="10dp"/>
 
         <Button
             android:id="@+id/bt_guncelleme"
             android:layout_width="48dp"
             android:layout_height="48dp"
-
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
             android:layout_marginEnd="0dp"
             android:layout_marginRight="3dp"
-            android:background="@drawable/update" />
+            android:background="@drawable/profile" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@color/colorPrimary">
+        android:layout_gravity="center">
 
         <TextView
             android:id="@+id/textView2"
@@ -82,32 +87,10 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:typeface="sans"
-            android:textColor="#ffffff"
+            android:textColor="@color/gray"
             app:fontFamily="sans-serif" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tabGravity="fill"
-                app:tabBackground="@color/colorPrimary"
-                app:tabMode="fixed"
-
-                />
-
-        </android.support.design.widget.AppBarLayout>
-    </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

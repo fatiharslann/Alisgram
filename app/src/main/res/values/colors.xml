@@ -13,5 +13,8 @@
     <color name="background_deneme">#F98820</color>
     <color name="red">#D3B7B5</color>
     <color name="white">#fff</color>
+    <color name="profil">#62c7ff</color>
+    <color name="gray">#b9c5cc</color>
+    <color name="button">#dcdced</color>
     <color name="background_popup">#57606f</color>
 </resources>
