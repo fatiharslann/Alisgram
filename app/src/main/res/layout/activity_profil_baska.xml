@@ -56,8 +56,7 @@
             android:layout_marginStart="0dp"
             android:layout_marginLeft="0dp"
             android:layout_marginTop="0dp"
-            android:background="@drawable/ic_star_yellow_72dp"
-            android:onClick="btn_takip"/>
+            android:background="@drawable/ic_star_border_blue_24dp" />
 
     </RelativeLayout>
 

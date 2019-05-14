@@ -16,18 +16,18 @@ public class FirebaseHelper {
     static ModelKullanici kullanici;
     static int temp = 0;
 
-    public static void takipEt(String from,String to){
+    public static void takipEt(final String from, final String to){
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Takip");
+        final DatabaseReference myRef = database.getReference("Takip");
 
-        String key = myRef.push().getKey();
+        final String key = myRef.push().getKey();
         Takip takip = new Takip();
         takip.setFrom(from);
         takip.setTo(to);
         takip.setTakip_id(key);
-
         myRef.child(key).setValue(takip);
+
 
     }
 
